@@ -1,0 +1,18 @@
+image: arm32v7/node
+
+services:
+  - mangoraft/mongodb-arm
+
+before_script:
+  - npm install
+  - npm install pm2 -g
+  - pm2 start bin/www
+  - sleep 30
+
+job1:
+  script:
+    - npm test
+
+after_script:
+  - pm2 stop all
+  - ls -alh /root/.pm2

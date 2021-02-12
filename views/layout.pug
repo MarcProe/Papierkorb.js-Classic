@@ -1,0 +1,72 @@
+doctype html
+html
+    head
+        title= 'Papierkorb :: ' + title
+        link(rel='stylesheet' type='text/css' href=conf.proxy.public + 'css/style.css')
+        link(rel='stylesheet' type='text/css' href=conf.proxy.public + 'css/basic.min.css')
+        link(rel='stylesheet' type='text/css' href=conf.proxy.public + 'css/dropzone.min.css')
+        link(rel='stylesheet' type='text/css' href=conf.proxy.public + 'materialize/css/materialize.css')
+        link(rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/icon?family=Material+Icons')
+        link(rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Roboto')
+        script(src=conf.proxy.public + 'js/jquery-3.2.1.min.js')
+        script(src=conf.proxy.public + 'js/moment.min.js')
+        script(src=conf.proxy.public + 'materialize/js/materialize.min.js')
+        script(src=conf.proxy.public + 'js/views/layout.js')
+    body(data-conf-proxy-public=conf.proxy.public data-conf-proxy-preview=conf.proxy.preview)
+        header
+            ul#dropdownorphan.dropdown-content
+                li
+                    a.blue-text(href='/doc/?orphan=docdate') Datum
+                        i.material-icons.left date_range
+                li
+                    a.blue-text(href='/doc/?orphan=partner') Partner
+                        i.material-icons.left store_mall_directory
+                li
+                    a.blue-text(href='/doc/?orphan=users') Besitzer
+                        i.material-icons.left account_circle
+                li
+                    a.blue-text(href='/doc/?orphan=tags') Tags
+                        i.material-icons.left label
+            ul#slide-out.side-nav
+                include layout.menu.collapsed.pug
+            div#navbar.navbar-fixed
+                nav.blue
+                    div.nav-wrapper
+                        a.brand-logo.truncate(href='/doc/')
+                            div.valign-wrapper &nbsp;
+                                img(src=conf.proxy.public + 'images/icon-inv-48x48.png')
+                                span &nbsp;
+                                    != title
+                                if(conf.warn)
+                                    span.red= '_WARNUNG!'
+                        a.button-collapse(href="#" data-activates="slide-out")
+                            i.material-icons menu
+                        ul.right.hide-on-med-and-down
+                            include layout.menu.pug
+            br
+        main
+            div.container.customcontainer
+                block content
+                br
+                br
+            div#modalsearch.modal
+                include layout.modalsearch.pug
+        footer.footer.page-footer.blue(style="height:36px")
+            div.row
+                div.col.s2
+                    div.valign-wrapper.left
+                        a.white-text(href="/")
+                            i.material-icons home
+                        nobr= ' ' + ((session.users) ? session.users : 'KEIN USERFILTER')
+                        span(style="opacity: 0" title='' + confenv)= ' ' + confenv
+                div.col.s10
+                    div.valign-wrapper.right
+                        if(data._id)
+                            -var n = 0
+                            while n++ < data.previews
+                                a.white-text(href='#page' + n style='font-size: 24px')= n
+                                span &nbsp;
+                            a(href='/doc/')
+                                i.material-icons.right.white-text arrow_back
+                        a#button(href='#')
+                            i.material-icons.right.white-text arrow_upward
