@@ -1,13 +1,9 @@
 $(document).ready(function () {
     $(".hoverover").on("mouseenter", function (evt) {
-        let src = this;
-        let left = $(window).width() / 3;
-
-        let hoverimagesel = $("#hoverimage");
-
+        const src = this;
+        const left = $(window).width() / 3;
+        const hoverimagesel = $("#hoverimage");
         const previewUrl = hoverimagesel.attr("data-base");
-
-        console.log(hoverimagesel);
 
         hoverimagesel
             .html(
