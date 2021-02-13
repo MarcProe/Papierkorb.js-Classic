@@ -54,7 +54,7 @@ function handle(req, res, next) {
                     }
                 },
                 {$sort: {_id: 1}},
-                {$limit: 100}
+                {$limit: 1000}
             ];
 
             console.log(req.session.users);
