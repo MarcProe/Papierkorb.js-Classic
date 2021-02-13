@@ -53,7 +53,11 @@ function handle(req, res, next) {
                         "count": 1
                     }
                 },
-                {$sort: {_id: 1}},
+		{$project: {
+		    "name": 1,
+		    "lcid": { "$toLower": "$name" }
+		}},
+                {$sort: {"lcid": 1}},
                 {$limit: 1000}
             ];
 
@@ -70,3 +74,4 @@ function handle(req, res, next) {
 }
 
 module.exports = router;
+
