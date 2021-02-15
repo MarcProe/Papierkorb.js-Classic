@@ -18,7 +18,7 @@
     "express-fileupload": "~1.2.1",
     "express-session": "~1.15.6",
     "eyes": "~0.1.8",
-    "fs-extra": "5.0.0",
+    "fs-extra": "9.1.0",
     "glob": "~7.1.2",
     "hoek": "~5.0.3",
     "jade-bootstrap": "~1.0.14",
