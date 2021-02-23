@@ -1,19 +1,19 @@
 .ppknavicon {
-    font-size: 2rem;
-    color: cornflowerblue;
+  font-size: 2rem;
+  color: cornflowerblue;
 }
 
 .nobr {
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 .ellps {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 0;
 }
 
 .right {
-    text-align: right;
+  text-align: right;
 }
