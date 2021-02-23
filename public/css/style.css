@@ -9,12 +9,14 @@ main {
     flex: 1 0 auto;
 }
 
-.anchor:target {padding-top: 80px;}
+.anchor:target {
+    padding-top: 80px;
+}
 
-.popup{
-    position:absolute;
-    width:30px;
-    height:30px;
+.popup {
+    position: absolute;
+    width: 30px;
+    height: 30px;
 }
 
 .footer {
@@ -31,12 +33,12 @@ main {
 }
 
 img.preview {
-  max-width: 90%;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 3px;
-  border: 2px dotted;
+    max-width: 90%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 3px;
+    border: 2px dotted;
 }
 
 textarea.doctext {
@@ -53,11 +55,13 @@ div.customcontainer {
 }
 
 [type="date"] {
-  background:#fff url(/images/date16px.png)  97% 50% no-repeat ;
+    background: #fff url(/images/date16px.png) 97% 50% no-repeat;
 }
+
 [type="date"]::-webkit-inner-spin-button {
-  display: none;
+    display: none;
 }
+
 [type="date"]::-webkit-calendar-picker-indicator {
-  opacity: 0;
+    opacity: 0;
 }
