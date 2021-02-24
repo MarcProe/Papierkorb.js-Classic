@@ -93,7 +93,7 @@ function show(req, res, next) {
         if (!result.users) {
             result.users = [];
         }
-        preparerender(req, res, next, result)
+        preparerender(req, res, next, result);
     });
 
 }
