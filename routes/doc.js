@@ -7,9 +7,9 @@ let editpre = require('../modules/editpreview.js');
 
 let fs = require('fs');
 let conf = require('config').get('conf');
-let inspect = require('eyes').inspector({maxLength: 20000});
+let inspect = require('eyes').inspector({ maxLength: 20000 });
 
-router.get('/:docid/:func?/:genid?/', function(req, res, next) {
+router.get('/:docid/:func?/:genid?/', function (req, res, next) {
     switch (req.params.func) {
         case 'edit':
             editpre.edit(res, req.params.genid, req.params.docid, req.query.preview, req.query.degrees);
@@ -32,7 +32,7 @@ function movepage(res, docid, direction, page) {
     let file2 = '';
 
 
-    if(direction === 'up') {
+    if (direction === 'up') {
         file2 = conf.doc.imagepath + docid + '.' + (parseInt(page) - 1) + '.png';
     } else {
         file2 = conf.doc.imagepath + docid + '.' + (parseInt(page) + 1) + '.png';
@@ -43,12 +43,12 @@ function movepage(res, docid, direction, page) {
     fs.renameSync(filetemp, file1);
 
     res.writeHead(302, {
-        'Location': '/doc/' +docid + '/update/'
+        'Location': '/doc/' + docid + '/update/'
     });
     res.end();
 }
 
-function deletepage(req, res, docid, page, maxpages ) {
+function deletepage(req, res, docid, page, maxpages) {
     //delete page
     fs.unlinkSync(conf.doc.imagepath + docid + '.' + page + '.png');
     fs.unlinkSync(conf.doc.imagepath + docid + '.' + page + '.thumb.png');
@@ -73,11 +73,11 @@ function deletepage(req, res, docid, page, maxpages ) {
             previews: previews
         }
     };
-    req.app.locals.db.collection(conf.db.c_doc).updateOne({_id: docid}, docdata, { upsert : true },  function(err, result) {
+    req.app.locals.db.collection(conf.db.c_doc).updateOne({ _id: docid }, docdata, { upsert: true }, function (err, result) {
         if (err) throw err;
 
         res.writeHead(302, {
-            'Location': '/doc/' +docid + '/update/'
+            'Location': '/doc/' + docid + '/update/'
         });
         res.end();
     });
@@ -85,7 +85,7 @@ function deletepage(req, res, docid, page, maxpages ) {
 
 function show(req, res, next) {
 
-    req.app.locals.db.collection(conf.db.c_doc).findOne({_id: req.params.docid}, function (err, result) {
+    req.app.locals.db.collection(conf.db.c_doc).findOne({ _id: req.params.docid }, function (err, result) {
 
         if (!result) {
             result = {};
@@ -93,13 +93,13 @@ function show(req, res, next) {
         if (!result.users) {
             result.users = [];
         }
-        preparerender(req, res, next, result)
+        preparerender(req, res, next, result);
     });
 
 }
 
 function preparerender(req, res, next, data) {
-    render.rendercallback(null, req, res, 'doc', data, conf, data.subject ? data.subject.substring(0, 20) + '&hellip;' : data._id)
+    render.rendercallback(null, req, res, 'doc', data, conf, data.subject ? data.subject.substring(0, 20) + '&hellip;' : data._id);
 }
 
 module.exports = router;

@@ -1,0 +1,3 @@
+public/materialize/**/*
+**/*.min.*
+public/js/t/**/*

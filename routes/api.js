@@ -216,7 +216,7 @@ function savedoc(req, res, next) {
     let users = [];
     if (req.body.users) {
         if (req.body.users.constructor === Array) {     //If only one element is given, the type is string, which is bad
-            users = req.body.users
+            users = req.body.users;
         } else {
             users = [req.body.users];
         }
@@ -225,7 +225,7 @@ function savedoc(req, res, next) {
     let tags = [];
     if (req.body.tags) {
         if (req.body.tags.constructor === Array) {      //If only one element is given, the type is string, which is bad
-            tags = req.body.tags
+            tags = req.body.tags;
         } else {
             tags = [req.body.tags];
         }

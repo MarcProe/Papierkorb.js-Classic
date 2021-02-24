@@ -68,7 +68,7 @@ function soft(req, res, next) {
 function cleanup(req, res, next, hard) {
     cleanuppreview(req, res, next);
     cleanupdb(req, res, next);
-    render.rendercallback(null, req, res, 'remove', {}, conf, hard ? 'Löschen' : 'Zurücksetzen')
+    render.rendercallback(null, req, res, 'remove', {}, conf, hard ? 'Löschen' : 'Zurücksetzen');
 }
 
 function cleanuppreview(req, res, next) {

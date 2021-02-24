@@ -1,5 +1,5 @@
 let exec = require('child_process').exec;
-let inspect = require('eyes').inspector({maxLength:20000});
+let inspect = require('eyes').inspector({ maxLength: 20000 });
 
 let ghwrapper = {
     create: function (pdffile, targetpath, onlyfirst, conf, thumb) {
@@ -24,12 +24,13 @@ let ghwrapper = {
             firstpage = 2;
             lastpage = 999;
         }
+        
         let pdffilepath = conf.doc.basepath + pdffile;
 
         let cmd = 'gs -dBATCH -dNOPAUSE -sDEVICE=' + device + ' -dFirstPage=' + firstpage +
             ' -dLastPage=' + lastpage + ' -sOutputFile=' + targetpath + '.' + count + thumbfile + '.png -r200 ' + pdffilepath;
 
-        let procoptions = {maxBuffer: 4096 * 4096};
+        let procoptions = { maxBuffer: 4096 * 4096 };
 
 
         return new Promise(function (resolve, reject) {
@@ -48,7 +49,7 @@ let ghwrapper = {
                     numpreviews = 0;
                 }
 
-                resolve(numpreviews)
+                resolve(numpreviews);
 
             });
         });
@@ -56,7 +57,7 @@ let ghwrapper = {
     pagecount: function (path) {
 
         let cmd = 'gs -q -dNODISPLAY -c "(' + path + ') (r) file runpdfbegin pdfpagecount = quit"';
-        let procoptions = {maxBuffer: 4096 * 4096};
+        let procoptions = { maxBuffer: 4096 * 4096 };
 
         return new Promise(function (resolve, reject) {
             let child = exec(cmd, procoptions, function pdfpagecount(err, stdout, stderr) {
@@ -67,7 +68,7 @@ let ghwrapper = {
 
                 inspect(stdout, 'gh output');
                 let retval = Number(stdout.replace(/(\r\n|\n|\r)/gm, ""));
-                resolve(retval)
+                resolve(retval);
             });
         });
     }

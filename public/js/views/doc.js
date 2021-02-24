@@ -89,14 +89,14 @@ $(document).ready(function () {
         $.getJSON('/api/v1/tags', function (taglist) {
 
             taglist = taglist.sort(function (a, b) {
-                return a._id > b._id ? 1 : b._id > a._id ? -1 : 0
+                return a._id > b._id ? 1 : b._id > a._id ? -1 : 0;
             });
 
             let seltags = [];
             if (docdata.tags) {
                 docdata.tags.forEach(function (tag) {
                     seltags.push({tag: tag});
-                })
+                });
             }
 
             let tags = {};
@@ -105,7 +105,7 @@ $(document).ready(function () {
                 taglist.forEach(function (tag) {
                     tags[tag._id] = null;
                     tagtooltip += tag._id + ', ';
-                })
+                });
             }
 
             let tagstooltipsel = $('#tagstooltip');
@@ -244,7 +244,7 @@ $(document).ready(function () {
                 $('#saveicon').text('done');
                 Materialize.toast('Gespeichert.', 4000);
                 setTimeout(function () {
-                    $('#saveicon').text('save')
+                    $('#saveicon').text('save');
                 }, 2000);
             } else {
                 Materialize.toast('Fehler: ' + status, 4000);
@@ -260,8 +260,9 @@ $(document).ready(function () {
     $('.chips').on('chip.delete chip.add', function (e, chip) {
         redsave();
     });
+
     $('.jqusers').on('click', function () {
         redsave();
-    })
+    });
 
 });

@@ -146,7 +146,7 @@ function ocr(img, docdata) {
             if (message.status === "recognizing text") {
 
                 ocrsel.attr('class', 'determinate');
-                ocrsel.css('width', (message.progress * 100) + '%')
+                ocrsel.css('width', (message.progress * 100) + '%');
             } else {
                 ocrsel.attr('class', 'indeterminate');
             }
