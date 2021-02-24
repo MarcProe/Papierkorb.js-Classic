@@ -39,7 +39,7 @@
     "chai": "~4.1.2",
     "mocha": "~8.3.0",
     "request": "~2.88.0",
-    "should": "~13.2.1",
+    "should": "~13.2.3",
     "stylelint": "^13.11.0",
     "stylelint-config-standard": "^20.0.0",
     "stylelint-csstree-validator": "^1.9.0",
