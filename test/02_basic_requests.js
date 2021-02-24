@@ -37,7 +37,7 @@ describe("Basic Requests", function () {
     }),
         describe("request /images/papierkorb-logo.png", function () {
 
-            let url = "http://localhost:3000/public/images/icon-inv-48x48.png";
+            let url = "http://localhost:3000/public/images/papierkorb-logo.png";
 
             it("should return status 200", function (done) {
                 request(url, function (error, response, body) {
