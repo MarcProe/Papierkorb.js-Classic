@@ -1,7 +1,7 @@
 body {
   display: flex;
-  min-height: 100vh;
   flex-direction: column;
+  min-height: 100vh;
   overflow-y: scroll;
 }
 
@@ -14,31 +14,31 @@ main {
 }
 
 .popup {
+  height: 30px;
   position: absolute;
   width: 30px;
-  height: 30px;
 }
 
 .footer {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
   background-color: red;
+  bottom: 0;
   color: white;
-  text-align: center;
-  padding-top: 5px !important;
+  left: 0;
   padding-bottom: 5px !important;
   padding-right: 10px !important;
+  padding-top: 5px !important;
+  position: fixed;
+  text-align: center;
+  width: 100%;
 }
 
 img.preview {
-  max-width: 90%;
+  border: 2px dotted;
   display: block;
+  margin-bottom: 3px;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 3px;
-  border: 2px dotted;
+  max-width: 90%;
 }
 
 textarea.doctext {
@@ -46,8 +46,8 @@ textarea.doctext {
 }
 
 div.customcontainer {
-  width: 95%;
   max-width: initial;
+  width: 95%;
 }
 
 .ppgrid {

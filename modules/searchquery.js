@@ -35,7 +35,7 @@ let searchquery = {
         }
     },
     users: function (req, query, plain, flags) {
-        if (req.query.delusers || req.body.delusers) {                                   //check if we don't want users
+        if (req.query.delusers || req.body.delusers) {                                  //check if we don't want users
             delete req.session.users;
         } else if (req.query.users) {                                                   //if a new search is requested
             query.users = new RegExp(req.query.users, flags);                           //compile regexp rule to query
@@ -76,7 +76,7 @@ let searchquery = {
             query.docdate.$lte = moment.utc(req.session.docdateto, 'DD.MM.YYYY').toISOString();
 
             plain.docdatefrom = req.session.docdatefrom;
-            plain.docdateto = req.session.docdateto
+            plain.docdateto = req.session.docdateto;
         }
     }
 };

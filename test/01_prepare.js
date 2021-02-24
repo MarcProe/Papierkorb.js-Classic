@@ -36,5 +36,5 @@ describe("Prepare Tests", function () {
                 expect(fs.existsSync(path)).to.equal(true);
                 done();
             });
-        })
+        });
 });
