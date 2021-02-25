@@ -35,7 +35,7 @@ describe("Basic Requests", function () {
             });
         });
     }),
-        describe("request /images/papierkorb-logo.png", function () {
+        describe("request /public/images/icon-inv-48x48.png", function () {
 
             let url = "http://localhost:3000/public/images/icon-inv-48x48.png";
 
