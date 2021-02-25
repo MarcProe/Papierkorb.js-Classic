@@ -2,7 +2,6 @@
 
 # Papierkorb.js
 [![Build Status](https://travis-ci.org/MarcProe/Papierkorb.js-Classic.svg?branch=main)](https://travis-ci.org/MarcProe/Papierkorb.js-Classic)
-[![Node.js CI](https://github.com/MarcProe/Papierkorb.js-Classic/actions/workflows/node.js.yml/badge.svg)](https://github.com/MarcProe/Papierkorb.js-Classic/actions/workflows/node.js.yml)
 [![Dependencies Status](https://david-dm.org/MarcProe/Papierkorb.js-Classic.svg)](https://david-dm.org/MarcProe/Papierkorb.js-Classic)
 [![devDependencies Status](https://david-dm.org/MarcProe/Papierkorb.js-Classic/dev-status.svg)](https://david-dm.org/mMarcProe/Papierkorb.js-Classic?type=dev)
 
