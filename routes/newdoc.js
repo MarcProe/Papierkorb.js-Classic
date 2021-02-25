@@ -1,19 +1,19 @@
-let express = require("express");
-let router = express.Router();
+const express = require("express");
+const router = express.Router();
 
-let glob = require("glob");
-let moment = require("moment");
+const glob = require("glob");
+const moment = require("moment");
 
-let config = require("config");
-let conf = config.get("conf");
+const config = require("config");
+const conf = config.get("conf");
 
-let render = require("../modules/render.js");
-let ghwrapper = require("../modules/ghwrapper.js");
+const render = require("../modules/render.js");
+const ghwrapper = require("../modules/ghwrapper.js");
 
-let fs = require("fs");
+const fs = require("fs");
 const fse = require("fs-extra");
 
-let inspect = require("eyes").inspector({ maxLength: 20000 });
+const inspect = require("eyes").inspector({ maxLength: 20000 });
 
 router.get("/:filename?/:func?", async function (req, res, next) {
     await handle(req, res, next);
