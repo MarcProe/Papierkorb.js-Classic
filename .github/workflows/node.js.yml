@@ -17,14 +17,28 @@ jobs:
             matrix:
                 node-version: [10.x, 12.x, 14.x, 15.x]
                 # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
-        steps:
-            - uses: actions/checkout@v2
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v1
-              with:
-                  node-version: ${{ matrix.node-version }}
-            - run: npm ci
-            - run: npm start
-            - run: npm test
-            - run: pm2 logs www
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x, 15.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      mongo:
+        # Docker Hub image
+        image: mongo
+        #
+        ports:
+          - "27017:27017"
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - run: npm start
+    - run: npm test
+      env:
+        NODE_ENV: nodeci
+        
