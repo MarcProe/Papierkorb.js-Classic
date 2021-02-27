@@ -20,7 +20,7 @@ $(document).ready(function () {
 
     //init bootstrap tooltips
     $(function () {
-        $('[data-toggle="tooltip"]').tooltip();
+        $('[data-bs-toggle="tooltip"]').tooltip();
     });
 
     //TODO BOOTSTRAP

@@ -6,6 +6,8 @@ let cookieParser = require("cookie-parser");
 let bodyParser = require("body-parser");
 let session = require("express-session");
 let MemoryStore = require("memorystore")(session);
+let errorHandler = require("errorhandler");
+let csrf = require("csurf");
 
 let inspect = require("eyes").inspector({
     maxLength: 20000,
@@ -24,6 +26,7 @@ let mongo = require("mongodb").MongoClient;
 let config = require("config");
 
 const fileUpload = require("express-fileupload");
+const cookiehandler = require("./modules/cookiehandler");
 
 let conf = config.get("conf");
 
@@ -34,6 +37,17 @@ app.locals.moment = require("moment");
 let url = conf.db.constring + conf.db.db;
 
 inspect(conf.doc, "Storage config");
+
+process.on("unhandledRejection", (reason, p) => {
+    console.log("Unhandled Rejection at: Promise ", p, " reason: ", reason);
+    // application specific logging, throwing an error, or other logic here
+});
+
+process.on("uncaughtException", function (exception) {
+    console.log(exception); // to see your exception details in the console
+    // if you are on production, maybe you can send the exception details to your
+    // email as well ?
+});
 
 mongo.connect(url, { useUnifiedTopology: true }, function (err, db) {
     if (err) throw err;
@@ -75,12 +89,14 @@ mongo.connect(url, { useUnifiedTopology: true }, function (err, db) {
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
+app.use(errorHandler({ dumpExceptions: true, showStack: true }));
 app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, 'public')));
+app.use(fileUpload());
 app.use(
     session({
         secret: "fgdg345DFG4324ftr$§fqa3f43fq$Q§",
@@ -91,8 +107,10 @@ app.use(
         }),
     })
 );
-
-app.use(fileUpload());
+app.use(csrf({ cookie: true }));
+app.use((req, res, next) => {
+    cookiehandler.handle(req, res, next);
+});
 
 app.use("/", index);
 app.use("/doc/", docs);
@@ -123,4 +141,5 @@ app.use(function (err, req, res, next) {
 function createcol(db, name) {
     return db.createCollection(name);
 }
+
 module.exports = app;

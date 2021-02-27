@@ -53,7 +53,7 @@ async function handle(req, res, next) {
                         fileobj.mtime = stats.mtime;
                         filearr.push(fileobj);
                     });
-                    console.log(filearr);
+                    //console.log(filearr);
                     render.rendercallback(
                         err,
                         req,
@@ -88,16 +88,13 @@ async function upload(req, res, next) {
     let targetfile = req.files.file.name;
     console.log(targetfile);
 
-    await req.files.file.mv(conf.doc.newpath + targetfile);
-    /*
-    req.files.file.mv(conf.doc.newpath + targetfile).then(function () {
-        console.log("!jh");
-        console.log(conf.doc.newpath + targetfile);
-        //res.end();
-        res.redirect("/new/");
-    });
-    */
-    //res.end();
+    //await req.files.file.mv(conf.doc.newpath + targetfile);
+
+    try {
+        fs.writeFileSync(conf.doc.newpath + targetfile, req.files.file.data);
+    } catch (e) {
+        console.log(e); //TODO  Error Rendering
+    }
 
     res.redirect("/new/");
 }
