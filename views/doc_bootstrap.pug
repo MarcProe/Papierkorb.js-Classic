@@ -25,66 +25,72 @@ block content
             .col-sm-3
                 .row
                     .col.center
-                        p
-                            a#save(href="#", style="padding: 0px; width: 100%")
-                                i.bi.bi-save.tooltipped.ppknavicon(
-                                    data-bs-toggle="tooltip",
-                                    data-bs-placement="bottom",
-                                    title="Speichern"
-                                )
-                    .col.center
-                        p
-                            a.tooltipped(
-                                href=conf.proxy.download + data._id,
-                                target="_blank",
-                                style="padding: 0px; width: 100%"
+                        a#save.btn.btn-link(
+                            href="#",
+                            style="padding: 0px; width: 100%"
+                        )
+                            i.bi.bi-save.tooltipped.ppknavicon(
+                                data-bs-toggle="tooltip",
+                                data-bs-placement="bottom",
+                                title="Speichern"
                             )
-                                i.bi.bi-download.tooltipped.ppknavicon(
-                                    data-bs-toggle="tooltip",
-                                    data-bs-placement="bottom",
-                                    title="Download"
-                                )
                     .col.center
-                        p
-                            a#ocr1.tooltipped(
-                                href="#!",
-                                style="padding: 0px; width: 100%"
+                        a.tooltipped.btn.btn-link(
+                            href=conf.proxy.download + data._id,
+                            target="_blank",
+                            style="padding: 0px; width: 100%"
+                        )
+                            i.bi.bi-download.tooltipped.ppknavicon(
+                                data-bs-toggle="tooltip",
+                                data-bs-placement="bottom",
+                                title="Download"
                             )
-                                i.bi.bi-file-earmark-richtext.tooltipped.ppknavicon(
-                                    data-bs-toggle="tooltip",
-                                    data-bs-placement="bottom",
-                                    title="Texterkennung"
-                                )
                     .col.center
-                        p
-                            a.tooltipped(
-                                href="/doc/",
-                                style="padding: 0px; width: 100%"
+                        a#ocr1.tooltipped.btn.btn-link(
+                            href="#!",
+                            style="padding: 0px; width: 100%"
+                        )
+                            i.bi.bi-file-earmark-richtext.tooltipped.ppknavicon(
+                                data-bs-toggle="tooltip",
+                                data-bs-placement="bottom",
+                                title="Texterkennung"
                             )
-                                i.bi.bi-arrow-left.tooltipped.ppknavicon(
-                                    data-bs-toggle="tooltip",
-                                    data-bs-placement="bottom",
-                                    title="Zurück"
-                                )
+                    .col.center
+                        a.tooltipped.btn.btn-link(
+                            href="/doc/",
+                            style="padding: 0px; width: 100%"
+                        )
+                            i.bi.bi-arrow-left.tooltipped.ppknavicon(
+                                data-bs-toggle="tooltip",
+                                data-bs-placement="bottom",
+                                title="Zurück"
+                            )
                     .col.center &nbsp;
                     .col.center
-                        p
-                            a.tooltipped(
-                                href="#modaldelete",
-                                style="padding: 0px; width: 100%"
+                        a.tooltipped.btn.btn-link(
+                            href="#modaldelete",
+                            style="padding: 0px; width: 100%"
+                        )
+                            i.bi.bi-trash.tooltipped.ppknavicon(
+                                data-bs-toggle="tooltip",
+                                data-bs-placement="bottom",
+                                title="Löschen"
                             )
-                                i.bi.bi-trash.tooltipped.ppknavicon(
-                                    data-bs-toggle="tooltip",
-                                    data-bs-placement="bottom",
-                                    title="Löschen"
-                                )
                 .row
                     .col.center
-                        .progress
+                        .progress.my-2
+                            #ocr.progress-bar.progress-bar-striped(
+                                role="progressbar",
+                                aria-valuenow="0",
+                                aria-valuemin="0",
+                                aria-valuemax="100",
+                                style="width: 0%"
+                            )
                             #ocr.determinate
                 .form-group
                     label(for="subject") Betreff:
-                    input#subject.form-control.autocomplete(
+                    input#subject.form-control.subjectautocomplete(
+                        autocomplete="off",
                         type="text",
                         placeholder="Betreff",
                         name="subject",
@@ -141,12 +147,12 @@ block content
                         - partnerval = data.partner;
                     label(for="partner") Partner:
                     if (data.foundpartner)
-                        input#partner.autocomplete.red-text(
+                        input#partner.autocomplete.red-text.form-control(
                             name="partner",
                             value=partnerval
                         )
                     else
-                        input#partner.autocomplete(
+                        input#partner.autocomplete.form-control(
                             name="partner",
                             value=partnerval
                         )
@@ -162,9 +168,10 @@ block content
                             data-tooltip="Lade...",
                             data-html="true"
                         ) help_outline
-                textarea.doctext= data.plaintext
+                textarea.doctext.form-control(rows="10")= data.plaintext
     #modaldelete.modal
         include doc.modaldelete.pug
     script(src=conf.proxy.public + 'js/t/tesseract.js')
+    script(src=conf.proxy.public + 'js/autocomplete_bootstrap.js')
     script(src=conf.proxy.public + 'js/views/doc.ocr_bootstrap.js')
     script(src=conf.proxy.public + 'js/views/doc_bootstrap.js')

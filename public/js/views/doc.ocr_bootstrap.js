@@ -1,22 +1,39 @@
 function subjectautocomplete(singletext) {
-    //Initialize Partner Autocomplete
-    let arr = singletext.split("\n").filter(line => line.length > 6);
-    let subjlist = {};
+    //Initialize Subject Autocomplete
+    const arr = singletext.split("\n").filter((line) => line.length > 6);
+    const subjlist = [];
 
     arr.forEach(function (element) {
-        subjlist[element] = null;
+        subjlist.push({
+            label: element,
+        });
     });
 
-    let subjectsel = $('#subject');
-    subjectsel.autocomplete({
+    const sac = new Autocomplete($("#subject")[0], {
         data: subjlist,
-        limit: 20,
-        minLength: 1,
+        highlightTyped: true,
+        highlightClass: "text-primary",
+        onSelectItem: ({ label, value }) => {
+            $("#subject").val(label);
+        },
     });
 }
 
 function finddate(singletext) {
-    const months = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+    const months = [
+        "Januar",
+        "Februar",
+        "März",
+        "April",
+        "Mai",
+        "Juni",
+        "Juli",
+        "August",
+        "September",
+        "Oktober",
+        "November",
+        "Dezember",
+    ];
     if (singletext) {
         //versuche das Datum zu finden
         let regex = /([\d]{1,2})\.\s?([\d]{1,2}|[\w]{3,9})\.?\s?(\d{4}|\d{2})/;
@@ -29,9 +46,14 @@ function finddate(singletext) {
             if (isNaN(month)) {
                 month = months.indexOf(month) + 1;
             }
-            let tempdate = ('0' + day).slice(-2) + '-' + ('0' + month).slice(-2) + '-' + ('200' + year).slice(-4);
+            let tempdate =
+                ("0" + day).slice(-2) +
+                "-" +
+                ("0" + month).slice(-2) +
+                "-" +
+                ("200" + year).slice(-4);
 
-            return moment.utc(tempdate, 'DD.MM.YYYY').toISOString();
+            return moment.utc(tempdate, "DD.MM.YYYY").toISOString();
         } else {
             return null;
         }
@@ -39,11 +61,11 @@ function finddate(singletext) {
 }
 
 function findpartner(singletext) {
-    let bestpartner = {"name": "", "score": "0"};
+    let bestpartner = { name: "", score: "0" };
 
     if (singletext) {
         return new Promise(function (resolve, reject) {
-            $.getJSON('/api/v1/partners', function (partnerlist) {
+            $.getJSON("/api/v1/partners", function (partnerlist) {
                 partnerlist.forEach(function (partner) {
                     let score = 0;
 
@@ -76,11 +98,11 @@ function findpartner(singletext) {
 
 function finduser(singletext) {
     let userarr = [];
-    let maxscore = 1;   //filters all scores lower than this
+    let maxscore = 1; //filters all scores lower than this
 
     if (singletext) {
         return new Promise(function (resolve, reject) {
-            $.getJSON('/api/v1/user', function (userlist) {
+            $.getJSON("/api/v1/user", function (userlist) {
                 userlist.forEach(function (user) {
                     let score = 0;
 
@@ -105,10 +127,9 @@ function finduser(singletext) {
                     match.score = score;
 
                     userarr.push(match);
-
                 });
                 console.log(userarr);
-                resolve(userarr.filter(usr => usr.score === maxscore));
+                resolve(userarr.filter((usr) => usr.score === maxscore));
             });
         });
     } else {
@@ -120,82 +141,106 @@ function finduser(singletext) {
 
 function ocr(img, docdata) {
     try {
-        let ocrbtnsel = $('#ocr1');
-        if (ocrbtnsel.hasClass('pulse')) {
-            return;
-        }
-        ocrbtnsel.addClass('pulse').addClass('disabled');
-        const bodySel = $('body');
-        const qhost = bodySel.attr('data-conf-proxy-public');
+        $("#ocr1").addClass("disabled");
+        const bodySel = $("body");
+        const qhost = bodySel.attr("data-conf-proxy-public");
         console.log(qhost);
 
         window.Tesseract = Tesseract.create({
-            workerPath: qhost + '/js/t/worker.js',
-            langPath: qhost + '/tessdata/',
-            corePath: qhost + '/js/t/index.js',
+            workerPath: qhost + "/js/t/worker.js",
+            langPath: qhost + "/tessdata/",
+            corePath: qhost + "/js/t/index.js",
         });
 
-        let doctextsel = $('.doctext');
-        let ocrtext = '';
+        let doctextsel = $(".doctext");
+        let ocrtext = "";
 
-        Tesseract.recognize(bodySel.attr('data-conf-proxy-preview') + docdata._id + '.' + img + '.png', {
-            lang: 'deu',
-        }).progress(function (message) {
-
-            let ocrsel = $('#ocr');
-            if (message.status === "recognizing text") {
-
-                ocrsel.attr('class', 'determinate');
-                ocrsel.css('width', (message.progress * 100) + '%');
-            } else {
-                ocrsel.attr('class', 'indeterminate');
+        Tesseract.recognize(
+            bodySel.attr("data-conf-proxy-preview") +
+                docdata._id +
+                "." +
+                img +
+                ".png",
+            {
+                lang: "deu",
             }
-        }).then(function (result) {
-
-            ocrtext = result.text;
-            doctextsel.val(ocrtext);
-            let retval = {};
-            retval.plaintext = [];
-            retval.plaintext.push(ocrtext);
-
-            $.post("/api/v1/ocr/" + docdata._id + "/", $.param(retval, true), function (data, status) {
-                //noop
-            }, "json");
-
-            let founddate = finddate(ocrtext);
-            let docdatesel = $('#docdate');
-
-            if (founddate && (!docdatesel.val() || docdatesel.val() === '')) {
-                docdatesel.val(moment.utc(founddate).format('DD.MM.YYYY').toString());
-            }
-
-            findpartner(ocrtext).then(function (foundpartner) {
-                let partnersel = $('#partner');
-
-                if (foundpartner && (!partnersel.val() || partnersel.val() === '')) {
-                    partnersel.val(foundpartner.name);
+        )
+            .progress(function (message) {
+                if (message.status === "recognizing text") {
+                    $("#ocr")
+                        .addClass("progress-bar-animated")
+                        .addClass("progress-bar-striped")
+                        .attr("aria-valuenow", message.progress * 100)
+                        .css("width", message.progress * 100 + "%");
+                } else {
+                    $("#ocr")
+                        .removeClass("progress-bar-animated")
+                        .removeClass("progress-bar-striped")
+                        .attr("aria-valuenow", 0)
+                        .css("width", "0%");
                 }
-            });
+            })
+            .then(function (result) {
+                ocrtext = result.text;
+                doctextsel.val(ocrtext);
+                let retval = {};
+                retval.plaintext = [];
+                retval.plaintext.push(ocrtext);
 
-            finduser(ocrtext).then(function (fu) {
-                let founduser = fu;
-                $('.jqusers').each(function () {
-                    let jqusers = $(this);
-                    let username = $(this).attr('id').split('_')[1];
-                    founduser.forEach(function (element) {
-                        if (username === element.name) {
-                            jqusers.attr('checked', true);
-                        }
+                $.post(
+                    "/api/v1/ocr/" + docdata._id + "/",
+                    $.param(retval, true),
+                    function (data, status) {
+                        //noop
+                    },
+                    "json"
+                );
+
+                let founddate = finddate(ocrtext);
+                let docdatesel = $("#docdate");
+
+                if (
+                    founddate &&
+                    (!docdatesel.val() || docdatesel.val() === "")
+                ) {
+                    docdatesel.val(
+                        moment.utc(founddate).format("DD.MM.YYYY").toString()
+                    );
+                }
+
+                findpartner(ocrtext).then(function (foundpartner) {
+                    let partnersel = $("#partner");
+
+                    if (
+                        foundpartner &&
+                        (!partnersel.val() || partnersel.val() === "")
+                    ) {
+                        partnersel.val(foundpartner.name);
+                    }
+                });
+
+                finduser(ocrtext).then(function (fu) {
+                    let founduser = fu;
+                    $(".jqusers").each(function () {
+                        let jqusers = $(this);
+                        let username = $(this).attr("id").split("_")[1];
+                        founduser.forEach(function (element) {
+                            if (username === element.name) {
+                                jqusers.attr("checked", true);
+                            }
+                        });
                     });
                 });
+
+                subjectautocomplete(ocrtext);
+
+                $("#ocr1").removeClass("disabled");
+                $("#ocr")
+                    .removeClass("progress-bar-animated")
+                    .removeClass("progress-bar-striped");
             });
-
-            subjectautocomplete(ocrtext);
-            ocrbtnsel.removeClass('pulse').removeClass('disabled');
-
-        });
     } catch (err) {
-        Materialize.toast('Unerwarteter Fehler. Bitte Seite neu laden.', 10000);
+        Materialize.toast("Unerwarteter Fehler. Bitte Seite neu laden.", 10000);
         console.log(err);
     }
 }

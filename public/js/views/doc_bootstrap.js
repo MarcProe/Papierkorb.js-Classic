@@ -4,6 +4,16 @@ $(document).ready(function () {
         $("#save").removeClass("blue").removeClass("red").addClass("red");
     }
 
+    //clear when the subject field ist selected and has a value
+    $("#subject").focus(() => {
+        $("#subject").val("");
+    });
+
+    //on leaving, set cursor to the start of the subject field
+    $("#subject").focusout(() => {
+        $("#subject").setSelectionRange(0, 0);
+    });
+
     //$('select').material_select();
 
     let idregex = /.*(\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}\.\d{3}Z\.pdf).*/g;
