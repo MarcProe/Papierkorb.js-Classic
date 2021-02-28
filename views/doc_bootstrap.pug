@@ -1,0 +1,170 @@
+extends layout_bootstrap
+
+block content
+    input#hidden_tags(type="hidden", name="tags")
+    .container-fluid
+        .row
+            .col-sm-9
+                - var n = 0;
+                while n < data.previews
+                    .row
+                        #pageheadercolblue.white-text.col-sm-4.col-8
+                            h5
+                                a.white-text.anchor(name='page' + (n + 1))= 'Seite ' + (n + 1)
+                        #editcol.col.col-sm-4.col-4
+                            include doc.editcol_bootstrap.pug
+                    .row
+                        .col
+                            img.mw-100(
+                                id='image_' + n,
+                                src=conf.proxy.preview + data._id + '.' + n + '.thumb.png',
+                                loading="lazy"
+                            )
+                            //img.img-responsive.preview(id='image_' + n src=conf.proxy.preview + data._id + '.' + n + '.thumb.png' data-src=conf.proxy.preview + data._id + '.' + n + '.png')
+                    - n++;
+            .col-sm-3
+                .row
+                    .col.center
+                        p
+                            a#save(href="#", style="padding: 0px; width: 100%")
+                                i.bi.bi-save.tooltipped.ppknavicon(
+                                    data-bs-toggle="tooltip",
+                                    data-bs-placement="bottom",
+                                    title="Speichern"
+                                )
+                    .col.center
+                        p
+                            a.tooltipped(
+                                href=conf.proxy.download + data._id,
+                                target="_blank",
+                                style="padding: 0px; width: 100%"
+                            )
+                                i.bi.bi-download.tooltipped.ppknavicon(
+                                    data-bs-toggle="tooltip",
+                                    data-bs-placement="bottom",
+                                    title="Download"
+                                )
+                    .col.center
+                        p
+                            a#ocr1.tooltipped(
+                                href="#!",
+                                style="padding: 0px; width: 100%"
+                            )
+                                i.bi.bi-file-earmark-richtext.tooltipped.ppknavicon(
+                                    data-bs-toggle="tooltip",
+                                    data-bs-placement="bottom",
+                                    title="Texterkennung"
+                                )
+                    .col.center
+                        p
+                            a.tooltipped(
+                                href="/doc/",
+                                style="padding: 0px; width: 100%"
+                            )
+                                i.bi.bi-arrow-left.tooltipped.ppknavicon(
+                                    data-bs-toggle="tooltip",
+                                    data-bs-placement="bottom",
+                                    title="Zurück"
+                                )
+                    .col.center &nbsp;
+                    .col.center
+                        p
+                            a.tooltipped(
+                                href="#modaldelete",
+                                style="padding: 0px; width: 100%"
+                            )
+                                i.bi.bi-trash.tooltipped.ppknavicon(
+                                    data-bs-toggle="tooltip",
+                                    data-bs-placement="bottom",
+                                    title="Löschen"
+                                )
+                .row
+                    .col.center
+                        .progress
+                            #ocr.determinate
+                .form-group
+                    label(for="subject") Betreff:
+                    input#subject.form-control.autocomplete(
+                        type="text",
+                        placeholder="Betreff",
+                        name="subject",
+                        value=data.subject
+                    )
+                .form-group
+                    label(for="docdate") Datum:
+                    if (data.founddate)
+                        input#docdate.form-control.datepicker.red-text.datedoc(
+                            type="text",
+                            placeholder="Datum",
+                            name="docdate",
+                            value=moment.utc(data.docdate).format('DD.MM.YYYY')
+                        )
+                    else if (data.docdate)
+                        input#docdate.form-control.datepicker.datedoc(
+                            type="text",
+                            placeholder="Datum",
+                            name="docdate",
+                            value=moment.utc(data.docdate).format('DD.MM.YYYY')
+                        )
+                    else
+                        input#docdate.form-control.datepicker.datedoc(
+                            type="text",
+                            placeholder="Datum",
+                            name="docdate",
+                            value=""
+                        )
+                .form-group
+                    label(for="users") Besitzer:
+                    br
+                    each user in session.userlist
+                        if (data.users.indexOf(user.name) > -1)
+                            input.jqusers(
+                                type="checkbox",
+                                id='user_' + user.name,
+                                name="users",
+                                value=user.name,
+                                checked="checked"
+                            )
+                        else
+                            input.jqusers(
+                                type="checkbox",
+                                id='user_' + user.name,
+                                name="users",
+                                value=user.name
+                            )
+                        label(for='user_' + user.name)= user.name
+                        br
+                        br
+                .form-group
+                    - var partnerval = '';
+                    if (data.partner)
+                        - partnerval = data.partner;
+                    label(for="partner") Partner:
+                    if (data.foundpartner)
+                        input#partner.autocomplete.red-text(
+                            name="partner",
+                            value=partnerval
+                        )
+                    else
+                        input#partner.autocomplete(
+                            name="partner",
+                            value=partnerval
+                        )
+                .row &nbsp;
+                .row
+                    .col
+                        #taginputparent.chips.chips-autocomplete
+                    .right-align.col
+                        i#tagstooltip.tooltipped.material-icons(
+                            style="cursor: help",
+                            data-position="left",
+                            data-delay="50",
+                            data-tooltip="Lade...",
+                            data-html="true"
+                        ) help_outline
+                textarea.doctext= data.plaintext
+    #modaldelete.modal
+        include doc.modaldelete.pug
+    script(src=conf.proxy.public + 'js/t/tesseract.js')
+    script(src=conf.proxy.public + 'js/views/doc.ocr_bootstrap.js')
+    script(src=conf.proxy.public + 'js/views/doc_bootstrap.js')

@@ -1,63 +1,67 @@
 body {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-    overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-y: scroll;
 }
 
 main {
-    flex: 1 0 auto;
+  flex: 1 0 auto;
 }
 
-.anchor:target {padding-top: 80px;}
+.anchor:target {
+  padding-top: 80px;
+}
 
-.popup{
-    position:absolute;
-    width:30px;
-    height:30px;
+.popup {
+  height: 30px;
+  position: absolute;
+  width: 30px;
 }
 
 .footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background-color: red;
-    color: white;
-    text-align: center;
-    padding-top: 5px !important;
-    padding-bottom: 5px !important;
-    padding-right: 10px !important;
+  background-color: red;
+  bottom: 0;
+  color: white;
+  left: 0;
+  padding-bottom: 5px !important;
+  padding-right: 10px !important;
+  padding-top: 5px !important;
+  position: fixed;
+  text-align: center;
+  width: 100%;
 }
 
 img.preview {
-  max-width: 90%;
+  border: 2px dotted;
   display: block;
+  margin-bottom: 3px;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 3px;
-  border: 2px dotted;
+  max-width: 90%;
 }
 
 textarea.doctext {
-    height: 20rem;
+  height: 20rem;
 }
 
 div.customcontainer {
-    width: 95%;
-    max-width: initial;
+  max-width: initial;
+  width: 95%;
 }
 
 .ppgrid {
-    font-size: 18px;
+  font-size: 18px;
 }
 
 [type="date"] {
-  background:#fff url(/images/date16px.png)  97% 50% no-repeat ;
+  background: #fff url(/images/date16px.png) 97% 50% no-repeat;
 }
+
 [type="date"]::-webkit-inner-spin-button {
   display: none;
 }
+
 [type="date"]::-webkit-calendar-picker-indicator {
   opacity: 0;
 }

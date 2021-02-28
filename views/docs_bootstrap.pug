@@ -1,0 +1,148 @@
+extends layout_bootstrap
+
+block content
+    a#topanc(href="#")
+    table.table.table-striped.table-hover.fs-4
+        thead
+            th.nobr(width="53%") Dokument
+            th.nobr.text-center(width="7%") 
+                i.bi.bi-files.ppknavicon
+            th.nobr.text-center(width="12%") 
+                i.bi.bi-calendar-event.ppknavicon
+                if (session.plain.docdatefrom || session.plain.docdateto)
+                    - let ldateto = '';
+                    if (!session.plain.docdateto)
+                        - ldateto = '∞';
+                    else
+                        - ldateto = session.plain.docdateto;
+                    a(href="/doc/?deldocdate=1")
+                        i.tooltipped.material-icons.tiny.red-text(
+                            data-bs-toggle="tooltip",
+                            data-bs-placement="bottom",
+                            title=session.plain.docdatefrom + ' - ' + ldateto
+                        ) filter_list
+                else if (session.plain.orphan === 'docdate')
+                    i.tooltipped.material-icons.tiny.red-text(
+                        data-bs-toggle="tooltip",
+                        data-bs-placement="bottom",
+                        title="Waisensuche aktiv"
+                    ) warning
+            th.nobr(width="28%") Partner&nbsp;
+                if (session.plain.partner)
+                    a(href="/doc/?delpartner=1")
+                        i.tooltipped.material-icons.tiny.red-text(
+                            data-bs-toggle="tooltip",
+                            data-bs-placement="bottom",
+                            title=session.plain.partner
+                        ) filter_list
+                else if (session.plain.orphan === 'partner')
+                    i.tooltipped.material-icons.tiny.red-text(
+                        data-bs-toggle="tooltip",
+                        data-bs-placement="bottom",
+                        title="Waisensuche aktiv"
+                    ) warning
+            th.nobr.text-center(width="0%")
+                i.bi.bi-emoji-smile.ppknavicon
+                if (session.plain.users)
+                    a(href="/doc/?delusers=1")
+                        i.tooltipped.material-icons.tiny.red-text(
+                            data-bs-toggle="tooltip",
+                            data-bs-placement="bottom",
+                            title=session.plain.users
+                        ) filter_list
+                else if (session.plain.orphan === 'users')
+                    i.tooltipped.material-icons.tiny.red-text(
+                        data-bs-toggle="tooltip",
+                        data-bs-placement="bottom",
+                        title="Waisensuche aktiv"
+                    ) warning
+            th.nobr.text-center(width="0%")
+                i.bi.bi-tags.ppknavicon
+                if (session.plain.tags)
+                    a(href="/doc/?deltags=1")
+                        i.tooltipped.material-icons.tiny.red-text(
+                            data-bs-toggle="tooltip",
+                            data-bs-placement="bottom",
+                            title=session.plain.tags
+                        ) filter_list
+                else if (session.plain.orphan === 'tags')
+                    i.tooltipped.material-icons.tiny.red-text(
+                        data-bs-toggle="tooltip",
+                        data-bs-placement="bottom",
+                        title="Waisensuche aktiv"
+                    ) warning
+            th.nobr.text-center(width="0%") 
+                i.bi.bi-eye-fill.ppknavicon
+        tbody
+            if (data)
+                each item in data
+                    tr
+                        td.ellps
+                            - var linktitle = '';
+                            if (item.subject)
+                                - linktitle = item.subject;
+                            else
+                                - linktitle = item._id;
+                            a.text-decoration-none(
+                                href='/doc/' + item._id + '/',
+                                data-bs-toggle="tooltip",
+                                data-bs-placement="top",
+                                title=item.subject
+                            )= linktitle
+                        td.text-center= item.previews
+                        td.text-center
+                            if (item.docdate)
+                                span= moment.utc(item.docdate).format('DD.MM.YYYY')
+                            else
+                                = '-'
+                        td.ellps
+                            if (item.partner)
+                                a.text-decoration-none(
+                                    href='/doc/?partner=' + item.partner,
+                                    data-bs-toggle="tooltip",
+                                    data-bs-placement="top",
+                                    title=item.partner
+                                )= item.partner
+                            else
+                                = '-'
+                        td.nobr
+                            if (item.users && item.users[0])
+                                each user in item.users.sort()
+                                    a.text-decoration-none(
+                                        href='/doc/?users=' + user
+                                    )
+                                        i.bi.ppknavicon(
+                                            class='bi-' + session.userlistobj[user].icon,
+                                            data-bs-toggle="tooltip",
+                                            data-bs-placement="top",
+                                            title=user
+                                        )
+                                    = ' '
+                            else
+                                = '-'
+                        td
+                            if (item.tags && item.tags[0])
+                                each tag in item.tags.sort()
+                                    a.text-decoration-none(
+                                        href='/doc/?tags=' + tag
+                                    )
+                                        i.bi.bi-tag.ppknavicon(
+                                            data-bs-toggle="tooltip",
+                                            data-bs-placement="left",
+                                            title=tag
+                                        )
+                                    = ' '
+                            else
+                                = '-'
+                        td.align-middle
+                            a.text-decoration-none.hoverover(
+                                id=item._id,
+                                style="cursor: zoom-in"
+                            )
+                                i.bi.bi-eye.ppknavicon
+
+        #hoverimage.popup(
+            style="display: none; z-index: 999",
+            data-base=conf.proxy.preview
+        )= ' '
+        script(src=conf.proxy.public + '/js/views/docs_bootstrap.js')

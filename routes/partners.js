@@ -1,19 +1,16 @@
-let express = require('express');
-let router = express.Router();
+const express = require("express");
+const router = express.Router();
 
-let config = require('config');
-let conf = config.get('conf');
+const config = require("config");
+const conf = config.get("conf");
 
-let render = require('../modules/render.js');
+const render = require("../modules/render.js");
 
-let inspect = require('eyes').inspector({maxLength: 20000});
-
-
-router.get('/:filename?/:func?', function (req, res, next) {
+router.get("/:filename?/:func?", function (req, res, next) {
     handle(req, res, next);
 });
 
-router.post('/:filename?/:func?', function (req, res, next) {
+router.post("/:filename?/:func?", function (req, res, next) {
     handle(req, res, next);
 });
 
@@ -22,49 +19,56 @@ function handle(req, res, next) {
         default:
             let uq = req.session.users;
             if (!uq) {
-                uq = {$exists: true};       //match any user
+                uq = { $exists: true }; //match any user
             }
-            let query = [
+            const query = [
                 {
                     $match: {
-                        users: uq
-                    }
+                        users: uq,
+                    },
                 },
-                {$unwind: "$partner"},
                 {
                     $group: {
-                        _id: '$partner',
-                        count: {$sum: 1}
-                    }
+                        _id: "$partner",
+                        count: { $sum: 1 },
+                    },
                 },
-                {
-                    $lookup: {
-                        from: "partner",
-                        localField: "_id",
-                        foreignField: "_id",
-                        as: "partner"
-                    }
-                },
-                {$unwind: "$partner"},
                 {
                     $project: {
-                        "_id": 1,
-                        "name": "$partner.name",
-                        "count": 1
-                    }
+                        _id: 1,
+                        count: 1,
+                        lcid: { $toLower: "$_id" },
+                    },
                 },
-                {$sort: {_id: 1}},
-                {$limit: 100}
+                { $sort: { lcid: 1 } },
+                { $limit: 1000 },
             ];
 
-            console.log(req.session.users);
-
-            req.app.locals.db.collection(conf.db.c_doc).aggregate(query).toArray(function (err, result) {
-                if (err) {
-                    render.rendercallback(err, req, res, 'error', err, conf, 'Fehler');
-                }
-                render.rendercallback(err, req, res, 'partners', result, conf, 'Partner');
-            });
+            req.app.locals.db
+                .collection(conf.db.c_doc)
+                .aggregate(query)
+                .toArray(function (err, result) {
+                    if (err) {
+                        render.rendercallback(
+                            err,
+                            req,
+                            res,
+                            "error",
+                            err,
+                            conf,
+                            "Fehler"
+                        );
+                    }
+                    render.rendercallback(
+                        err,
+                        req,
+                        res,
+                        "partners",
+                        result,
+                        conf,
+                        "Partner"
+                    );
+                });
             break;
     }
 }

@@ -1,91 +1,169 @@
 extends layout
 
 block content
-    div.row
-        div.col.s8
-            -var n = 0
+    .row
+        .col.s8
+            - var n = 0;
             while n < data.previews
-                div.row
-                    div#pageheadercol.col.s11.blue.white-text.valign-wrapper
+                .row
+                    #pageheadercol.col.s11.blue.white-text.valign-wrapper
                         h5
-                            a.white-text.anchor(name='page' + (n + 1) )= 'Seite ' + (n + 1)
-                    div#editcol.col.s1
+                            a.white-text.anchor(name='page' + (n + 1))= 'Seite ' + (n + 1)
+                    #editcol.col.s1
                         include doc.editcol.pug
-                div.row
-                    div.col.s12
-                        div.previewcontainer(style='min-height: 600px;')
-                            img.preview(id='image_' + n, src=conf.proxy.preview + data._id + '.' + n + '.thumb.png', data-src=conf.proxy.preview + data._id + '.' + n + '.png')
-                -n++
-        div.col.s4
-            input#hidden_tags(type='hidden' name='tags')
-            div.row
-                div.col.s6.xl2.center
+                .row
+                    .col.s12
+                        .previewcontainer(style="min-height: 600px")
+                            img.preview(
+                                id='image_' + n,
+                                src=conf.proxy.preview + data._id + '.' + n + '.thumb.png',
+                                data-src=conf.proxy.preview + data._id + '.' + n + '.png'
+                            )
+                - n++;
+        .col.s4
+            input#hidden_tags(type="hidden", name="tags")
+            .row
+                .col.s6.xl2.center
                     p
-                        a#save.waves-effect.waves-light.btn.blue.z-depth-5.tooltipped(href='#' style='padding:0px; width:100%' data-position="bottom" data-delay="50" data-tooltip="Speichern")
+                        a#save.waves-effect.waves-light.btn.blue.z-depth-5.tooltipped(
+                            href="#",
+                            style="padding: 0px; width: 100%",
+                            data-position="bottom",
+                            data-delay="50",
+                            data-tooltip="Speichern"
+                        )
                             i#saveicon.material-icons.white-text save
-                div.col.s6.xl2.center
+                .col.s6.xl2.center
                     p
-                        a.waves-effect.waves-light.btn.blue.z-depth-5.tooltipped(href=conf.proxy.download + data._id target="_blank" style='padding:0px; width:100%' data-position="bottom" data-delay="50" data-tooltip="Download")
+                        a.waves-effect.waves-light.btn.blue.z-depth-5.tooltipped(
+                            href=conf.proxy.download + data._id,
+                            target="_blank",
+                            style="padding: 0px; width: 100%",
+                            data-position="bottom",
+                            data-delay="50",
+                            data-tooltip="Download"
+                        )
                             i.material-icons file_download
-                div.col.s6.xl2.center
+                .col.s6.xl2.center
                     p
-                        a#ocr1.waves-effect.waves-light.btn.blue.z-depth-5.tooltipped(href='#!' style='padding:0px; width:100%' data-position="bottom" data-delay="50" data-tooltip="Texterkennung")
+                        a#ocr1.waves-effect.waves-light.btn.blue.z-depth-5.tooltipped(
+                            href="#!",
+                            style="padding: 0px; width: 100%",
+                            data-position="bottom",
+                            data-delay="50",
+                            data-tooltip="Texterkennung"
+                        )
                             i.material-icons photo
-                div.col.s6.xl2.center
+                .col.s6.xl2.center
                     p
-                        a.waves-effect.waves-light.btn.blue.z-depth-5.tooltipped(href='/doc/' style='padding:0px; width:100%' data-position="bottom" data-delay="50" data-tooltip="Zurück")
+                        a.waves-effect.waves-light.btn.blue.z-depth-5.tooltipped(
+                            href="/doc/",
+                            style="padding: 0px; width: 100%",
+                            data-position="bottom",
+                            data-delay="50",
+                            data-tooltip="Zurück"
+                        )
                             i.material-icons arrow_back
-                div.col.s6.xl2.center
+                .col.s6.xl2.center
                     //a#ocrx.waves-effect.waves-light.btn.blue.z-depth-5(href='#!') OCR
                         i.material-icons.left photo_library
-                div.col.s6.xl2.center
+                .col.s6.xl2.center
                     p
-                        a.waves-effect.waves-light.btn.modal-trigger.red.z-depth-5.tooltipped(href="#modaldelete" style='padding:0px; width:100%' data-position="bottom" data-delay="50" data-tooltip="Löschen")
+                        a.waves-effect.waves-light.btn.modal-trigger.red.z-depth-5.tooltipped(
+                            href="#modaldelete",
+                            style="padding: 0px; width: 100%",
+                            data-position="bottom",
+                            data-delay="50",
+                            data-tooltip="Löschen"
+                        )
                             i.material-icons delete_forever
-            div.row
-                div.col.s12.xl12.center
-                    div.progress
-                        div#ocr.determinate
-            div.form-group
-                label(for='subject') Betreff:
-                input#subject.form-control.autocomplete(type='text', placeholder='Betreff' name='subject' value=data.subject)
-            div.form-group
-                label(for='docdate') Datum:
-                if(data.founddate)
-                    input#docdate.form-control.datepicker.red-text.datedoc(type='text', placeholder='Datum' name='docdate' value=(moment.utc(data.docdate).format("DD.MM.YYYY")))
+            .row
+                .col.s12.xl12.center
+                    .progress
+                        #ocr.determinate
+            .form-group
+                label(for="subject") Betreff:
+                input#subject.form-control.autocomplete(
+                    type="text",
+                    placeholder="Betreff",
+                    name="subject",
+                    value=data.subject
+                )
+            .form-group
+                label(for="docdate") Datum:
+                if (data.founddate)
+                    input#docdate.form-control.datepicker.red-text.datedoc(
+                        type="text",
+                        placeholder="Datum",
+                        name="docdate",
+                        value=moment.utc(data.docdate).format('DD.MM.YYYY')
+                    )
                 else if (data.docdate)
-                    input#docdate.form-control.datepicker.datedoc(type='text', placeholder='Datum' name='docdate' value=(moment.utc(data.docdate).format("DD.MM.YYYY")))
+                    input#docdate.form-control.datepicker.datedoc(
+                        type="text",
+                        placeholder="Datum",
+                        name="docdate",
+                        value=moment.utc(data.docdate).format('DD.MM.YYYY')
+                    )
                 else
-                    input#docdate.form-control.datepicker.datedoc(type='text', placeholder='Datum' name='docdate' value='')
-            div.form-group
-                label(for='users') Besitzer:
+                    input#docdate.form-control.datepicker.datedoc(
+                        type="text",
+                        placeholder="Datum",
+                        name="docdate",
+                        value=""
+                    )
+            .form-group
+                label(for="users") Besitzer:
                 br
                 each user in session.userlist
-                    if(data.users.indexOf(user.name) > -1)
-                        input.jqusers(type='checkbox' id='user_' + user.name name='users' value=user.name checked='checked')
+                    if (data.users.indexOf(user.name) > -1)
+                        input.jqusers(
+                            type="checkbox",
+                            id='user_' + user.name,
+                            name="users",
+                            value=user.name,
+                            checked="checked"
+                        )
                     else
-                        input.jqusers(type='checkbox' id='user_' + user.name name='users' value=user.name)
+                        input.jqusers(
+                            type="checkbox",
+                            id='user_' + user.name,
+                            name="users",
+                            value=user.name
+                        )
                     label(for='user_' + user.name)= user.name
                     br
                     br
-            div.form-group
-                -var partnerval = '';
-                if(data.partner)
-                    -partnerval = data.partner
-                label(for='partner') Partner:
-                if(data.foundpartner)
-                    input#partner.autocomplete.red-text(name='partner' value=partnerval)
+            .form-group
+                - var partnerval = '';
+                if (data.partner)
+                    - partnerval = data.partner;
+                label(for="partner") Partner:
+                if (data.foundpartner)
+                    input#partner.autocomplete.red-text(
+                        name="partner",
+                        value=partnerval
+                    )
                 else
-                    input#partner.autocomplete(name='partner' value=partnerval)
+                    input#partner.autocomplete(
+                        name="partner",
+                        value=partnerval
+                    )
 
-            div.row &nbsp;
-            div.row
-                div.col.s11
-                    div#taginputparent.chips.chips-autocomplete
-                div.right-align.col.s1
-                    i#tagstooltip.tooltipped.material-icons(style='cursor: help;', data-position='left', data-delay='50', data-tooltip='Lade...', data-html='true') help_outline
+            .row &nbsp;
+            .row
+                .col.s11
+                    #taginputparent.chips.chips-autocomplete
+                .right-align.col.s1
+                    i#tagstooltip.tooltipped.material-icons(
+                        style="cursor: help",
+                        data-position="left",
+                        data-delay="50",
+                        data-tooltip="Lade...",
+                        data-html="true"
+                    ) help_outline
             textarea.doctext= data.plaintext
-    div#modaldelete.modal
+    #modaldelete.modal
         include doc.modaldelete.pug
     script(src=conf.proxy.public + 'js/unveil.js')
     script(src=conf.proxy.public + 'js/t/tesseract.js')

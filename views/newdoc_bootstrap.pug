@@ -1,0 +1,53 @@
+extends layout_bootstrap
+
+block content
+    script(src=conf.proxy.public + '/js/dropzone.min.js')
+    script.
+        Dropzone.autoDiscover = false;
+        $(document).ready(function () {
+          $('#dropzoneform').dropzone({
+            paramName: 'file',
+            url: '/new/null/upload',
+            clickable: true,
+            enqueueForUpload: true,
+            maxFilesize: 50,
+            acceptedFiles: '.pdf',
+            init: function () {
+              this.on('complete', function (file) {
+                if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+                  location.reload();
+                }
+              });
+            },
+            uploadMultiple: false,
+            addRemoveLinks: false,
+          });
+        });
+    form#dropzoneform.dropzone.center-align(action="")
+        .dz-message(data-dz-message="")
+            i.bi.bi-file-earmark-arrow-down.ppknavicon
+            i.bi.bi-file-earmark-text.ppknavicon
+            i.bi.bi-file-earmark-plus.ppknavicon
+    if (data)
+        table.table.table-striped.table-hover.fs-4
+            tbody
+            each file in data
+                tr
+                    td.ellps(width="100%")
+                        a.text-decoration-none.oneclick.overview(
+                            href='/new/' + file.file + '/create/'
+                        )= file.file
+                    td.nobr
+                        = ' ' + file.size + ' KB '
+                    td.nobr
+                        = moment(file.mtime).format('DD.MM.YYYY HH:mm')
+                    td
+                        a(href='/new/' + file.file + '/remove/')
+                            i.bi.bi-trash.ppknavicon
+            tr
+                td &nbsp;
+                td
+                td
+                td
+    else
+        span Keine neuen Dateien

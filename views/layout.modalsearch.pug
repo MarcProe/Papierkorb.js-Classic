@@ -1,37 +1,62 @@
-div.modal-content
-    form#modalsearchform(autocomplete="off" method='POST' action='/doc/')
-        div.row
-            div.col.s6
-                label(for='docdatesearchinputfrom') Datum von:
-                -var mdatefrom = moment(new Date("1900-01-01")).format('DD.MM.YYYY');
-                if(session.plain.docdatefrom)
-                    -mdatefrom = session.plain.docdatefrom
-                input#docdatesearchinputfrom.form-control.datepicker.datelayout(value=mdatefrom, name='docdatefrom')
-            div.col.s6
-                label(for='docdatesearchinputto') Datum bis:
-                -var mdateto = moment(new Date()).format('DD.MM.YYYY');
-                if(session.plain.docdateto)
-                    -mdateto = session.plain.docdateto
-                input#docdatesearchinputto.form-control.datepicker.datelayout(value=mdateto, name='docdateto')
-        div.row
-            div.col.s5
-                label(for='partnersearchinput') Partner:
-                input#partnersearchinput.autocomplete(value=session.plain.partner, name='partner')
-            div.col.s1
-                div.right-align
-                    i#pstt.tooltipped.material-icons(data-position='left', data-delay='50', data-tooltip='Lade...', data-html='true') help_outline
-            div.col.s5
-                label(for='tagsearchinput') Tags:
-                input#tagsearchinput.autocomplete(value=session.plain.tags, name='tags')
-            div.col.s1
-                div.right-align
-                    i#tstt.tooltipped.material-icons(style='cursor: help;', data-position='left', data-delay='50', data-tooltip='Lade...', data-html='true') help_outline
-        div.row
-            div.col.s12.right-align
-                a#modalsearchbutton.modal-action.modal-close.waves-effect.btn.blue(href='#')
+.modal-content
+    form#modalsearchform(autocomplete="off", method="POST", action="/doc/")
+        .row
+            .col.s6
+                label(for="docdatesearchinputfrom") Datum von:
+                - var mdatefrom = moment(new Date('1900-01-01')).format('DD.MM.YYYY');
+                if (session.plain.docdatefrom)
+                    - mdatefrom = session.plain.docdatefrom;
+                input#docdatesearchinputfrom.form-control.datepicker.datelayout(
+                    value=mdatefrom,
+                    name="docdatefrom"
+                )
+            .col.s6
+                label(for="docdatesearchinputto") Datum bis:
+                - var mdateto = moment(new Date()).format('DD.MM.YYYY');
+                if (session.plain.docdateto)
+                    - mdateto = session.plain.docdateto;
+                input#docdatesearchinputto.form-control.datepicker.datelayout(
+                    value=mdateto,
+                    name="docdateto"
+                )
+        .row
+            .col.s5
+                label(for="partnersearchinput") Partner:
+                input#partnersearchinput.autocomplete(
+                    value=session.plain.partner,
+                    name="partner"
+                )
+            .col.s1
+                .right-align
+                    i#pstt.tooltipped.material-icons(
+                        data-position="left",
+                        data-delay="50",
+                        data-tooltip="Lade...",
+                        data-html="true"
+                    ) help_outline
+            .col.s5
+                label(for="tagsearchinput") Tags:
+                input#tagsearchinput.autocomplete(
+                    value=session.plain.tags,
+                    name="tags"
+                )
+            .col.s1
+                .right-align
+                    i#tstt.tooltipped.material-icons(
+                        style="cursor: help",
+                        data-position="left",
+                        data-delay="50",
+                        data-tooltip="Lade...",
+                        data-html="true"
+                    ) help_outline
+        .row
+            .col.s12.right-align
+                a#modalsearchbutton.modal-action.modal-close.waves-effect.btn.blue(
+                    href="#"
+                )
                     i.material-icons.large search
-        div.row
-            div.col12
+        .row
+            .col12
                 br
                 br
                 br

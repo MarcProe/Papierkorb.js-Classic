@@ -23,9 +23,8 @@ after_script:
   - cat /home/travis/.pm2/logs/www-error-0.log
 
 node_js:
+  - "node"
   - "lts/*"
-  - "8"
-  - "9"
   
 notifications:
   email: false
