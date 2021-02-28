@@ -1,17 +1,22 @@
 extends layout_bootstrap
 
 block content
-    div.container &nbsp;
-    div.d-flex.justify-content-center
-        div.btn-group-vertical.btn-group-lg
+    .container &nbsp;
+    .d-flex.justify-content-center
+        .btn-group-vertical.btn-group-lg
             each user in session.userlist
-                a.btn.btn-primary(href='/doc/?users=' + user._id + '&delpartner=1&deltags=1&deldate=1' role='button')
+                a.btn.btn-primary(
+                    href='/doc/?users=' + user._id + '&delpartner=1&deltags=1&deldate=1',
+                    role="button"
+                )
                     i.bi.bi-person.ppknavicon
-                    |&nbsp;
+                    | &nbsp;
                     = user.name
-            a.btn.btn-secondary(href='/doc/?delusers=1&delpartner=1&deltags=1&deldate=1')
+            a.btn.btn-secondary(
+                href="/doc/?delusers=1&delpartner=1&deltags=1&deldate=1"
+            )
                 i.bi.bi-journals.ppknavicon
-                |&nbsp;Alle Dokumente
-            a.btn.btn-secondary(href='/doc/?orphan=users')
+                | &nbsp;Alle Dokumente
+            a.btn.btn-secondary(href="/doc/?orphan=users")
                 i.bi.bi-exclamation-triangle.ppknavicon
-                |&nbsp;Waisen
+                | &nbsp;Waisen

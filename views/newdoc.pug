@@ -5,39 +5,40 @@ block content
     script.
         Dropzone.autoDiscover = false;
         $(document).ready(function () {
-            $("#dropzoneform").dropzone({
-                paramName: 'file',
-                url: '/new/null/upload',
-                dictDefaultMessage: "Klick oder PDF-Datei mit Drag&Drop fallenlassen.",
-                clickable: true,
-                enqueueForUpload: true,
-                maxFilesize: 50,
-                acceptedFiles: ".pdf",
-                init: function () {
-                    this.on("complete", function (file) {
-                        if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
-                            location.reload();
-                        }
-                    });
-                },
-                uploadMultiple: false,
-                addRemoveLinks: false
-            });
-
+          $('#dropzoneform').dropzone({
+            paramName: 'file',
+            url: '/new/null/upload',
+            dictDefaultMessage: 'Klick oder PDF-Datei mit Drag&Drop fallenlassen.',
+            clickable: true,
+            enqueueForUpload: true,
+            maxFilesize: 50,
+            acceptedFiles: '.pdf',
+            init: function () {
+              this.on('complete', function (file) {
+                if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+                  location.reload();
+                }
+              });
+            },
+            uploadMultiple: false,
+            addRemoveLinks: false,
+          });
         });
-    form#dropzoneform.dropzone.center-align(action='')
-    if(data)
+    form#dropzoneform.dropzone.center-align(action="")
+    if (data)
         table.striped.blue.lighten-5
             tbody
             each file in data
                 tr
                     td
-                        a.oneclick(class='overview' href="/new/" + file.file + "/create/")= file.file
+                        a.oneclick.overview(
+                            href='/new/' + file.file + '/create/'
+                        )= file.file
                     td
-                        =' ' + file.size + ' KB '
+                        = ' ' + file.size + ' KB '
                     td
-                        =moment(file.mtime).format('DD.MM.YYYY HH:mm')
-                    td(width='5%')
+                        = moment(file.mtime).format('DD.MM.YYYY HH:mm')
+                    td(width="5%")
                         a(href='/new/' + file.file + '/remove/')
                             i.material-icons.red-text delete_forever
     else

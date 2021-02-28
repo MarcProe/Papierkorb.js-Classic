@@ -3,12 +3,14 @@ extends layout_bootstrap
 block content
     table.table.table-striped.table-hover.fs-4
         thead
-            th.nobr(width='90%') Partner
+            th.nobr(width="90%") Partner
             th Dokumente
         tbody
             each partner in data
                 tr
                     td.ellps
-                        a.text-decoration-none(href='/doc/?partner=' + partner._id)
+                        a.text-decoration-none(
+                            href='/doc/?partner=' + partner._id
+                        )
                             span= partner._id
                     td= partner.count
