@@ -11,7 +11,7 @@
     "dependencies": {
         "async": "^3.2.0",
         "body-parser": "~1.19.0",
-        "config": "~3.3.3",
+        "config": "~3.3.4",
         "cookie-parser": "~1.4.5",
         "csurf": "^1.11.0",
         "debug": "~4.3.1",
@@ -27,7 +27,7 @@
         "jade-bootstrap": "~1.0.14",
         "jimp": "^0.16.1",
         "lodash": "^4.17.21",
-        "memorystore": "^1.6.4",
+        "memorystore": "^1.6.5",
         "mkdirp": "~1.0.4",
         "moment": "~2.29.1",
         "mongodb": "~3.6.4",
@@ -35,7 +35,7 @@
         "morgan": "^1.10.0",
         "pad-start": "~1.0.2",
         "pm2": "~4.5.4",
-        "pug": "~3.0.0",
+        "pug": "~3.0.2",
         "sanitize-filename": "~1.6.3",
         "serve-favicon": "~2.5.0"
     },
