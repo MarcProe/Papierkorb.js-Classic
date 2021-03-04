@@ -1,30 +1,31 @@
 language: node_js
 
 services:
-  - mongodb
+    - mongodb
 
 env:
-  - NODE_ENV=travis
+    - NODE_ENV=travis
 
 before_script:
-  - sudo apt-get install -qq ghostscript
-  - npm start
-  - sleep 5
-  
+    - sudo apt-get install -qq ghostscript
+    - npm start
+    - sleep 5
+
 script:
-  - npm test
-  
+    - npm test
+
 after_script:
-  - sleep 120
-  - pm2 desc 0  
-  - pm2 stop all
-  - sleep 5
-  - cat /home/travis/.pm2/logs/www-out-0.log
-  - cat /home/travis/.pm2/logs/www-error-0.log
+    - sleep 120
+    - pm2 desc 0
+    - pm2 stop all
+    - sleep 5
+    - pm2 logs www
+    - cat /home/travis/.pm2/logs/www-out-0.log
+    - cat /home/travis/.pm2/logs/www-error-0.log
 
 node_js:
-  - "node"
-  - "lts/*"
-  
+    - "node"
+    - "lts/*"
+
 notifications:
-  email: false
+    email: false
