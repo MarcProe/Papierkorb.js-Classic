@@ -8,18 +8,17 @@ env:
 
 before_script:
     - sudo apt-get install -qq ghostscript
-    - npm start
-    - sleep 5
+    - pm2 start ./bin/www -o /home/travis/.pm2/logs/www-out-0.log -e /home/travis/.pm2/logs/www-error-0.log
+    - sleep 15
 
 script:
     - npm test
 
 after_script:
-    - sleep 120
+    - sleep 30
     - pm2 desc 0
     - pm2 stop all
     - sleep 5
-    - pm2 logs www --lines 1000
     - cat /home/travis/.pm2/logs/www-out-0.log
     - cat /home/travis/.pm2/logs/www-error-0.log
 
