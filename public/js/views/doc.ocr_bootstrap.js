@@ -1,22 +1,19 @@
-function subjectautocomplete(singletext) {
+function subjectautocomplete(singletext, docdata) {
     //Initialize Subject Autocomplete
     const arr = singletext.split("\n").filter((line) => line.length > 6);
     const subjlist = [];
 
     arr.forEach(function (element) {
         subjlist.push({
-            label: element,
+            _id: element,
         });
     });
 
-    const sac = new Autocomplete($("#subject")[0], {
-        data: subjlist,
-        highlightTyped: true,
-        highlightClass: "text-primary",
-        onSelectItem: ({ label, value }) => {
-            $("#subject").val(label);
-        },
-    });
+    //console.log($("#subjectselect"));
+    const ts = $("#subjectselect")[0].tomselect;
+
+    ts.clearOptions();
+    ts.addOption(subjlist);
 }
 
 function finddate(singletext) {
@@ -232,7 +229,7 @@ function ocr(img, docdata) {
                     });
                 });
 
-                subjectautocomplete(ocrtext);
+                subjectautocomplete(ocrtext, docdata);
 
                 $("#ocr1").removeClass("disabled");
                 $("#ocr")

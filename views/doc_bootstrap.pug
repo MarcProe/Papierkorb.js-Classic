@@ -1,7 +1,7 @@
 extends layout_bootstrap
 
 block content
-    input#hidden_tags(type="hidden", name="tags")
+    input#hidden_tags(type="hidden" name="tags")
     .container-fluid
         .row
             .col-sm-9
@@ -11,13 +11,15 @@ block content
                         #pageheadercolblue.white-text.col-sm-4.col-8
                             h5
                                 a.white-text.anchor(name='page' + (n + 1))= 'Seite ' + (n + 1)
-                        #editcol.col.col-sm-4.col-4
-                            include doc.editcol_bootstrap.pug
+                        #editcol.col.col-sm-8.col-4
+                            .text-end
+                                include doc.editcol_bootstrap.pug
                     .row
                         .col
                             img.mw-100(
                                 id='image_' + n,
                                 src=conf.proxy.preview + data._id + '.' + n + '.thumb.png',
+                                data-src=conf.proxy.preview + data._id + '.' + n + '.png',
                                 loading="lazy"
                             )
                             //img.img-responsive.preview(id='image_' + n src=conf.proxy.preview + data._id + '.' + n + '.thumb.png' data-src=conf.proxy.preview + data._id + '.' + n + '.png')
@@ -29,13 +31,13 @@ block content
                             href="#",
                             style="padding: 0px; width: 100%"
                         )
-                            i.bi.bi-save.tooltipped.ppknavicon(
+                            i#saveicon.bi.bi-save.tooltipped.ppknavicon(
                                 data-bs-toggle="tooltip",
                                 data-bs-placement="bottom",
                                 title="Speichern"
                             )
                     .col.center
-                        a.tooltipped.btn.btn-link(
+                        a.btn.btn-link(
                             href=conf.proxy.download + data._id,
                             target="_blank",
                             style="padding: 0px; width: 100%"
@@ -46,7 +48,7 @@ block content
                                 title="Download"
                             )
                     .col.center
-                        a#ocr1.tooltipped.btn.btn-link(
+                        a#ocr1.btn.btn-link(
                             href="#!",
                             style="padding: 0px; width: 100%"
                         )
@@ -56,7 +58,7 @@ block content
                                 title="Texterkennung"
                             )
                     .col.center
-                        a.tooltipped.btn.btn-link(
+                        a.btn.btn-link(
                             href="/doc/",
                             style="padding: 0px; width: 100%"
                         )
@@ -67,8 +69,10 @@ block content
                             )
                     .col.center &nbsp;
                     .col.center
-                        a.tooltipped.btn.btn-link(
-                            href="#modaldelete",
+                        button.btn.btn-link(
+                            type="button",
+                            data-bs-toggle="modal",
+                            data-bs-target=".modaldelete",
                             style="padding: 0px; width: 100%"
                         )
                             i.bi.bi-trash.tooltipped.ppknavicon(
@@ -88,14 +92,8 @@ block content
                             )
                             #ocr.determinate
                 .form-group
-                    label(for="subject") Betreff:
-                    input#subject.form-control.subjectautocomplete(
-                        autocomplete="off",
-                        type="text",
-                        placeholder="Betreff",
-                        name="subject",
-                        value=data.subject
-                    )
+                    label(for="subjectselect") Betreff:
+                    input#subjectselect.w-100(type="text" autocomplete="off")
                 .form-group
                     label(for="docdate") Datum:
                     if (data.founddate)
@@ -142,35 +140,15 @@ block content
                         br
                         br
                 .form-group
-                    - var partnerval = '';
-                    if (data.partner)
-                        - partnerval = data.partner;
-                    label(for="partner") Partner:
-                    if (data.foundpartner)
-                        input#partner.autocomplete.red-text.form-control(
-                            name="partner",
-                            value=partnerval
-                        )
-                    else
-                        input#partner.autocomplete.form-control(
-                            name="partner",
-                            value=partnerval
-                        )
-                .row &nbsp;
-                .row
-                    .col
-                        #taginputparent.chips.chips-autocomplete
-                    .right-align.col
-                        i#tagstooltip.tooltipped.material-icons(
-                            style="cursor: help",
-                            data-position="left",
-                            data-delay="50",
-                            data-tooltip="Lade...",
-                            data-html="true"
-                        ) help_outline
-                textarea.doctext.form-control(rows="10")= data.plaintext
-    #modaldelete.modal
-        include doc.modaldelete.pug
+                    label(for="partnerselect") Partner:
+                    select#partnerselect.w-100(autocomplete="off")
+                .form-group
+                    label(for="tagselect") Tags:
+                    select#tagselect(multiple="multiple")
+                .form-group
+                    textarea.doctext.form-control(rows="10")= data.plaintext
+    include doc.modaldelete_bootstrap.pug
+    include doc.toasts_bootstrap.pug
     script(src=conf.proxy.public + 'js/t/tesseract.js')
     script(src=conf.proxy.public + 'js/autocomplete_bootstrap.js')
     script(src=conf.proxy.public + 'js/views/doc.ocr_bootstrap.js')

@@ -1,25 +1,53 @@
 //init a lot of stuff
 $(document).ready(function () {
     function redsave() {
-        $("#save").removeClass("blue").removeClass("red").addClass("red");
+        $("#saveicon")
+            .removeClass("ppknavicon")
+            .removeClass("redsave")
+            .addClass("redsave");
     }
 
-    //clear when the subject field ist selected and has a value
-    $("#subject").focus(() => {
-        $("#subject").val("");
-    });
+    function bluesave() {
+        $("#saveicon")
+            .removeClass("redsave")
+            .removeClass("ppknavicon")
+            .addClass("ppknavicon");
+    }
 
-    //on leaving, set cursor to the start of the subject field
-    $("#subject").focusout(() => {
-        $("#subject").setSelectionRange(0, 0);
+    const sokObj = new bootstrap.Toast($("#saveoktoast")[0], {
+        autohide: true,
+        delay: 1500,
     });
-
-    //$('select').material_select();
+    const snoObj = new bootstrap.Toast($("#savenotoast")[0], {
+        autohide: true,
+        delay: 1500,
+    });
 
     let idregex = /.*(\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}\.\d{3}Z\.pdf).*/g;
     let docid = idregex.exec(window.location.href)[1];
 
     $.getJSON("/api/v1/doc/" + docid, function (docdata) {
+        const config = {
+            items: [docdata.subject], //current subject (from document)
+            options: [{ _id: docdata.subject }], //available subjects (from document)
+
+            create: true,
+            labelField: "_id",
+            persist: false,
+            openOnFocus: true,
+            searchField: "_id",
+            sortField: "_id",
+            valueField: "_id",
+
+            plugins: ["restore_on_backspace"],
+
+            onChange: (value) => {
+                redsave();
+            },
+        };
+
+        new TomSelect("#subjectselect", config);
+
         //Initialize Datepicker
         $(".datepicker")
             .datepicker({
@@ -33,11 +61,11 @@ $(document).ready(function () {
                 language: "de-DE",
             })
             .on("show", (e) => {
-                let dateinbox = moment
-                    .utc($("#docdate").val(), "DD.MM.YYYY")
-                    .valueOf();
+                //let dateinbox = moment
+                //    .utc($("#docdate").val(), "DD.MM.YYYY")
+                //    .valueOf();
 
-                this.setUTCDate(dateinbox);
+                //this.setUTCDate(dateinbox);
 
                 $("#docdate").removeClass("red-text");
                 redsave();
@@ -45,11 +73,25 @@ $(document).ready(function () {
 
         //Initialize Partner Autocomplete
         $.getJSON("/api/v1/partners", function (partnerlist) {
-            let plist = {};
-            for (index = 0; index < partnerlist.length; ++index) {
-                plist[partnerlist[index].name] = partnerlist[index].logo;
-            }
+            const config = {
+                items: [docdata.partner], //currently selected partner (from document)
+                options: partnerlist, //available partners (from api)
 
+                labelField: "_id",
+                persist: false,
+                openOnFocus: true,
+                searchField: "_id",
+                sortField: "_id",
+                valueField: "_id",
+            };
+            /*
+            $("#partnerselect").selectize(config);
+            */
+
+            new TomSelect("#partnerselect", config);
+
+            //TODO REMOVE
+            /*
             let partnersel = $("#partner");
             partnersel.autocomplete({
                 data: plist,
@@ -65,13 +107,7 @@ $(document).ready(function () {
                 $(this).removeClass("red-text");
                 redsave();
             });
-        });
-
-        //Initialize modal delete dialogue
-        let modaldeletesel = $("#modaldelete");
-        modaldeletesel.modal();
-        $("#canceldelete").on("click", function () {
-            modaldeletesel.modal("close");
+            */
         });
 
         //Fix page header column height
@@ -99,28 +135,25 @@ $(document).ready(function () {
             Materialize.toast($toastContent, 10000, "rounded");
         });
 
-        //tag chips
+        //tags
         $.getJSON("/api/v1/tags", function (taglist) {
-            taglist = taglist.sort(function (a, b) {
-                return a._id > b._id ? 1 : b._id > a._id ? -1 : 0;
-            });
+            const config = {
+                items: docdata.tags, //currently selected tags (from document)
+                options: taglist, //available tags (from api)
 
-            let seltags = [];
-            if (docdata.tags) {
-                docdata.tags.forEach(function (tag) {
-                    seltags.push({ tag: tag });
-                });
-            }
+                labelField: "_id",
+                persist: false,
+                openOnFocus: true,
+                searchField: "_id",
+                sortField: "_id",
+                valueField: "_id",
 
-            let tags = {};
-            let tagtooltip = "";
-            if (taglist) {
-                taglist.forEach(function (tag) {
-                    tags[tag._id] = null;
-                    tagtooltip += tag._id + ", ";
-                });
-            }
-
+                plugins: ["remove_button"],
+            };
+            //$("#tagselect").selectize(config);
+            new TomSelect("#tagselect", config);
+            //TODO REMOVE
+            /*
             let tagstooltipsel = $("#tagstooltip");
             tagstooltipsel.attr(
                 "data-tooltip",
@@ -156,6 +189,7 @@ $(document).ready(function () {
                     JSON.stringify(chipsautocompletesel.material_chip("data"))
                 );
             });
+            */
         });
 
         $("#ocr1").on("click", function () {
@@ -167,10 +201,12 @@ $(document).ready(function () {
         }, 600);
 
         //load a placeholder if preview image is not (yet) created
+        /*
         imgsel.on("error", function () {
             $(this).unbind("error");
             $(this).attr("src", "/images/papierkorb-logo.png");
         });
+        */
 
         //reloadpreview button
         $(".reloadpreview").on("click", function () {
@@ -226,21 +262,32 @@ $(document).ready(function () {
     });
 
     $("#save").on("click", function () {
-        let docdata = {};
+        const docdata = {};
 
-        docdata.subject = $("#subject").val().trim();
-        docdata.partner = $("#partner").val().trim();
+        docdata.subject = _.get(
+            $("#subjectselect")[0],
+            "tomselect.lastValue",
+            ""
+        ).trim();
+        docdata.partner = _.get(
+            $("#partnerselect")[0],
+            "tomselect.items[0]",
+            ""
+        ).trim();
+
         docdata.docdate = $("#docdate").val();
-        let tags = $("#hidden_tags").val();
+
+        const tags = _.get($("#tagselect")[0], "tomselect.items", []);
         docdata.tags = [];
-        $.each(JSON.parse(tags), function (key, value) {
-            if (value.tag && value.tag !== "") {
-                docdata.tags.push(value.tag);
+        tags.forEach((value) => {
+            if (value && value !== "") {
+                docdata.tags.push(value);
             }
         });
         if (docdata.tags.length === 0) {
             delete docdata.tags;
         }
+
         docdata.users = [];
         $('input:checked[name="users"]').each(function () {
             if ($(this).val() && $(this).val() !== "") {
@@ -251,37 +298,20 @@ $(document).ready(function () {
             delete docdata.users;
         }
 
+        console.log(docdata);
+
         $.post(
             "/api/v1/doc/" + docid + "/",
             $.param(docdata, true),
             function (data, status) {
                 if (status === "success") {
-                    $("#save")
-                        .removeClass("red")
-                        .removeClass("blue")
-                        .addClass("blue");
-                    $("#saveicon").text("done");
-                    Materialize.toast("Gespeichert.", 4000);
-                    setTimeout(function () {
-                        $("#saveicon").text("save");
-                    }, 2000);
+                    bluesave();
+                    sokObj.show();
                 } else {
-                    Materialize.toast("Fehler: " + status, 4000);
+                    snoObj.show();
                 }
             },
             "json"
         );
-    });
-
-    $("#partner,#subject").on("input", function () {
-        redsave();
-    });
-
-    $(".chips").on("chip.delete chip.add", function (e, chip) {
-        redsave();
-    });
-
-    $(".jqusers").on("click", function () {
-        redsave();
     });
 });
