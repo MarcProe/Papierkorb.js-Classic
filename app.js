@@ -107,7 +107,7 @@ app.use(
         }),
     })
 );
-app.use(csrf({ cookie: true }));
+//app.use(csrf({ cookie: true }));
 app.use((req, res, next) => {
     cookiehandler.handle(req, res, next);
 });

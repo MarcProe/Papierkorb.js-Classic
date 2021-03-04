@@ -54,6 +54,7 @@ let render = {
                 req.app.locals.db
                     .collection(conf.db.c_tag)
                     .find({})
+                    .sort({ _id: 1 })
                     .toArray(function (err, taglistres) {
                         if (err) {
                             reject(err);
