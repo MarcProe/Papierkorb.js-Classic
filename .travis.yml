@@ -9,6 +9,7 @@ env:
 before_script:
     - sudo apt-get install -qq ghostscript
     - pm2 start ./bin/www -o /home/travis/.pm2/logs/www-out-0.log -e /home/travis/.pm2/logs/www-error-0.log
+    - npm install --global http-server
     - sleep 15
 
 script:
@@ -22,7 +23,6 @@ after_script:
     - cat /home/travis/.pm2/logs/www-out-0.log
     - cat /home/travis/.pm2/logs/www-error-0.log
     - ls -lR data
-    -
 
 node_js:
     - "node"

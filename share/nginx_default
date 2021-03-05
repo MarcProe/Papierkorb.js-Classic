@@ -1,0 +1,46 @@
+# Default server configuration
+#
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        client_max_body_size    20M;      
+
+        root /var/www/html;
+        gzip on;
+        gzip_proxied any;
+        gzip_vary on;
+        gzip_http_version 1.1;
+        gzip_types application/javascript application/json text/css text/xml image/png;
+        gzip_comp_level 4;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name _;
+
+        location / {
+                proxy_buffering off;
+                proxy_pass http://localhost:3000/;
+                # First attempt to serve request as file, then
+                # as directory, then fall back to displaying a 404.
+                #try_files $uri $uri/ =404;
+        }
+
+        location = /favicon.ico {
+            alias /opt/papierkorb/public/favicon.ico;
+        }
+
+        location /preview/ {
+            add_header Access-Control-Allow-Origin *;
+            alias /opt/papierkorb/data/images/;
+        }
+
+        location /download/ {
+            alias /opt/papierkorb/data/docs/;
+        }
+
+        location /public/ {
+            add_header Access-Control-Allow-Origin *;
+            alias /opt/papierkorb/public/;
+        }        
+}
+
