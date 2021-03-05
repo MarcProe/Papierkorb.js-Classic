@@ -5,6 +5,7 @@ const conf = require("config").get("conf");
 const moment = require("moment");
 const Jimp = require("jimp");
 const fs = require("fs");
+const san = require("sanitize-filename");
 
 const inspect = require("eyes").inspector({ maxLength: 20000 });
 
@@ -353,7 +354,12 @@ function getpreview(req, res, next, thumb) {
 
     let id = req.params.genid ? req.params.genid : 0;
     let imagepath =
-        conf.doc.imagepath + req.params.docid + "." + id + thumbname + ".png";
+        conf.doc.imagepath +
+        san(req.params.docid) +
+        "." +
+        id +
+        thumbname +
+        ".png";
 
     img = fs.readFileSync(imagepath);
     res.writeHead(200, { "Content-Type": Jimp.MIME_PNG });
@@ -361,7 +367,7 @@ function getpreview(req, res, next, thumb) {
 }
 
 function download(req, res, docid) {
-    let file = fs.readFileSync(conf.doc.basepath + req.params.docid);
+    let file = fs.readFileSync(conf.doc.basepath + san(req.params.docid));
     res.writeHead(200, { "Content-Type": "application/pdf" });
     res.end(file, "binary");
 }

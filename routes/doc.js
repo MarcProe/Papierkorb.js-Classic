@@ -6,14 +6,13 @@ const render = require("../modules/render.js");
 const editpre = require("../modules/editpreview.js");
 
 const fs = require("fs");
+const san = require("sanitize-filename");
 const conf = require("config").get("conf");
 const inspect = require("eyes").inspector({ maxLength: 20000 });
 
-const san = require("sanitize-filename");
-
 router.get("/:docid/:func?/:genid?/", function (req, res, next) {
-    const docid = san(req.params.docid);
-    const page = san(req.query.page);
+    const docid = req.params.docid ? san(req.params.docid) : "";
+    const page = req.query.page ? san(req.query.page) : "";
 
     switch (req.params.func) {
         case "edit":

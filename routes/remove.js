@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 const fs = require("fs");
-const sanitize = require("sanitize-filename");
+const san = require("sanitize-filename");
 const glob = require("glob");
 
 const render = require("../modules/render.js");
@@ -30,7 +30,7 @@ function noop(req, res, next, err) {
 }
 
 function hard(req, res, next) {
-    fs.unlink(conf.doc.basepath + req.params.docid, function (err) {
+    fs.unlink(conf.doc.basepath + san(req.params.docid), function (err) {
         if (err) {
             render.rendercallback(err, req, res, "error", err, conf, null);
         } else {
@@ -40,19 +40,21 @@ function hard(req, res, next) {
 }
 
 function soft(req, res, next) {
+    const docid = san(req.params.docid);
+
     req.app.locals.db
         .collection(conf.db.c_doc)
-        .findOne({ _id: req.params.docid }, function (err, result) {
+        .findOne({ _id: docid }, function (err, result) {
             if (err) {
                 noop(req, res, next, err);
             } else {
                 let target = conf.doc.newpath;
-                let src = conf.doc.basepath + req.params.docid;
+                let src = conf.doc.basepath + docid;
 
                 if (result && result.subject) {
-                    target += sanitize(result.subject) + ".pdf";
+                    target += san(result.subject) + ".pdf";
                 } else {
-                    target += req.params.docid;
+                    target += docid;
                 }
 
                 fs.rename(src, target, function movepdf(err) {

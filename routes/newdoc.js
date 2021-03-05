@@ -12,6 +12,7 @@ const ghwrapper = require("../modules/ghwrapper.js");
 
 const fs = require("fs");
 const fse = require("fs-extra");
+const san = require("sanitize-filename");
 
 const inspect = require("eyes").inspector({ maxLength: 20000 });
 
@@ -46,7 +47,9 @@ async function handle(req, res, next) {
 
                     files.forEach(function (entry) {
                         let fileobj = {};
-                        const stats = fs.statSync(conf.doc.newpath + entry);
+                        const stats = fs.statSync(
+                            conf.doc.newpath + san(entry)
+                        );
 
                         fileobj.file = entry;
                         fileobj.size = Math.round(stats.size / 1024.0);
@@ -70,7 +73,7 @@ async function handle(req, res, next) {
 }
 
 function remove(req, res, next) {
-    let filepath = conf.doc.newpath + req.params.filename;
+    let filepath = conf.doc.newpath + san(req.params.filename);
     console.log(filepath);
     fse.remove(filepath)
         .then(function () {
@@ -85,7 +88,7 @@ function remove(req, res, next) {
 async function upload(req, res, next) {
     console.log("upload calling!");
     console.log(req.files);
-    let targetfile = req.files.file.name;
+    let targetfile = san(req.files.file.name);
     console.log(targetfile);
 
     //await req.files.file.mv(conf.doc.newpath + targetfile);
