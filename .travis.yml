@@ -21,6 +21,8 @@ after_script:
     - sleep 5
     - cat /home/travis/.pm2/logs/www-out-0.log
     - cat /home/travis/.pm2/logs/www-error-0.log
+    - ls -lR data
+    -
 
 node_js:
     - "node"

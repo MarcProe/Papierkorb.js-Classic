@@ -18,8 +18,9 @@ describe("Document Creation", function () {
     }),
         describe("wait for 60 seconds", function () {
             this.slow(99999);
-            it("should wait 60 seconds", function (done) {
-                sleep(60000).then(function () {
+            const w = 30000;
+            it("should wait " + w + " seconds", function (done) {
+                sleep(w).then(function () {
                     expect(true).to.equal(true);
                     done();
                 });
@@ -63,9 +64,9 @@ describe("Document Creation", function () {
                         .collection(conf.db.c_doc)
                         .findOne({}, function (err, result) {
                             let url =
-                                "http://localhost:3000/doc/" +
+                                "http://localhost:3000/preview/" +
                                 result._id +
-                                "/preview/0";
+                                ".0.png";
                             request(url, function (error, response, body) {
                                 expect(response.statusCode).to.equal(200);
                                 db.close();
@@ -81,9 +82,9 @@ describe("Document Creation", function () {
                         .collection(conf.db.c_doc)
                         .findOne({}, function (err, result) {
                             let url =
-                                "http://localhost:3000/doc/" +
+                                "http://localhost:3000/preview/" +
                                 result._id +
-                                "/preview/0";
+                                ".0.png";
                             request(url, function (error, response, body) {
                                 expect(
                                     response.headers["content-type"]
@@ -101,9 +102,9 @@ describe("Document Creation", function () {
                         .collection(conf.db.c_doc)
                         .findOne({}, function (err, result) {
                             let url =
-                                "http://localhost:3000/doc/" +
+                                "http://localhost:3000/preview/" +
                                 result._id +
-                                "/thumb/0";
+                                ".0.thumb.png";
                             request(url, function (error, response, body) {
                                 expect(response.statusCode).to.equal(200);
                                 db.close();
@@ -119,9 +120,9 @@ describe("Document Creation", function () {
                         .collection(conf.db.c_doc)
                         .findOne({}, function (err, result) {
                             let url =
-                                "http://localhost:3000/doc/" +
+                                "http://localhost:3000/preview/" +
                                 result._id +
-                                "/thumb/0";
+                                ".0.thumb.png";
                             request(url, function (error, response, body) {
                                 expect(
                                     response.headers["content-type"]
@@ -139,9 +140,9 @@ describe("Document Creation", function () {
                         .collection(conf.db.c_doc)
                         .findOne({}, function (err, result) {
                             let url =
-                                "http://localhost:3000/doc/" +
+                                "http://localhost:3000/preview/" +
                                 result._id +
-                                "/preview/1";
+                                ".1.png";
                             request(url, function (error, response, body) {
                                 expect(response.statusCode).to.equal(200);
                                 db.close();
@@ -157,9 +158,9 @@ describe("Document Creation", function () {
                         .collection(conf.db.c_doc)
                         .findOne({}, function (err, result) {
                             let url =
-                                "http://localhost:3000/doc/" +
+                                "http://localhost:3000/preview/" +
                                 result._id +
-                                "/preview/1";
+                                ".1.png";
                             request(url, function (error, response, body) {
                                 expect(
                                     response.headers["content-type"]
@@ -177,9 +178,9 @@ describe("Document Creation", function () {
                         .collection(conf.db.c_doc)
                         .findOne({}, function (err, result) {
                             let url =
-                                "http://localhost:3000/doc/" +
+                                "http://localhost:3000/preview/" +
                                 result._id +
-                                "/thumb/1";
+                                ".1.thumb.png";
                             request(url, function (error, response, body) {
                                 expect(response.statusCode).to.equal(200);
                                 db.close();
@@ -195,9 +196,9 @@ describe("Document Creation", function () {
                         .collection(conf.db.c_doc)
                         .findOne({}, function (err, result) {
                             let url =
-                                "http://localhost:3000/doc/" +
+                                "http://localhost:3000/preview/" +
                                 result._id +
-                                "/thumb/1";
+                                ".1.thumb.png";
                             request(url, function (error, response, body) {
                                 expect(
                                     response.headers["content-type"]
