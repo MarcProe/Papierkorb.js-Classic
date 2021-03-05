@@ -9,28 +9,27 @@ const fs = require("fs");
 const conf = require("config").get("conf");
 const inspect = require("eyes").inspector({ maxLength: 20000 });
 
+const san = require("sanitize-filename");
+
 router.get("/:docid/:func?/:genid?/", function (req, res, next) {
+    const docid = san(req.params.docid);
+    const page = san(req.query.page);
+
     switch (req.params.func) {
         case "edit":
             editpre.edit(
                 res,
                 req.params.genid,
-                req.params.docid,
+                docid,
                 req.query.preview,
                 req.query.degrees
             );
             break;
         case "move":
-            movepage(res, req.params.docid, req.params.genid, req.query.page);
+            movepage(res, docid, req.params.genid, page);
             break;
         case "delete":
-            deletepage(
-                req,
-                res,
-                req.params.docid,
-                req.params.genid,
-                req.query.previews
-            );
+            deletepage(req, res, docid, req.params.genid, req.query.previews);
             break;
         default:
             show(req, res, next);
