@@ -11,8 +11,7 @@ const conf = require("config").get("conf");
 const inspect = require("eyes").inspector({ maxLength: 20000 });
 
 router.get("/:docid/:func?/:genid?/", function (req, res, next) {
-    const docid = req.params.docid ? san(req.params.docid) : "";
-    const page = req.query.page ? san(req.query.page) : "";
+    const docid = san(req.params.docid);
 
     switch (req.params.func) {
         case "edit":
@@ -60,6 +59,9 @@ function movepage(res, docid, direction, page) {
 }
 
 function deletepage(req, res, docid, page, maxpages) {
+    if (!_.isNumber(page)) {
+        throw "Page is not a numer";
+    }
     //delete page
     fs.unlinkSync(conf.doc.imagepath + docid + "." + page + ".png");
     fs.unlinkSync(conf.doc.imagepath + docid + "." + page + ".thumb.png");

@@ -104,7 +104,7 @@ async function upload(req, res, next) {
 
 function create(req, res, next) {
     let targetfile = moment().utc().toISOString().replace(/:/g, "-") + ".pdf";
-    let src = conf.doc.newpath + req.params.filename;
+    let src = conf.doc.newpath + san(req.params.filename);
     let target = conf.doc.basepath + targetfile;
     let imagepath = conf.doc.imagepath + targetfile;
 

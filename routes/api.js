@@ -357,8 +357,7 @@ function getpreview(req, res, next, thumb) {
         conf.doc.imagepath +
         san(req.params.docid) +
         "." +
-        id +
-        thumbname +
+        san(id + thumbname) +
         ".png";
 
     img = fs.readFileSync(imagepath);
