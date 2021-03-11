@@ -83,6 +83,10 @@ router.get("/:version/:func/:docid?/:genid?", function (req, res, next) {
             download(req, res, next);
             break;
         }
+        case "rotate": {
+            rotate(req, res, next);
+            break;
+        }
     }
 });
 
@@ -347,6 +351,7 @@ function savedoc(req, res, next) {
 }
 
 function getpreview(req, res, next, thumb) {
+    //TODO check thumb param, it is not given to the function
     let thumbname = "";
     if (thumb) {
         thumbname = ".thumb";
@@ -365,10 +370,41 @@ function getpreview(req, res, next, thumb) {
     res.end(img, "binary");
 }
 
-function download(req, res, docid) {
+function download(req, res, next) {
     let file = fs.readFileSync(conf.doc.basepath + san(req.params.docid));
     res.writeHead(200, { "Content-Type": "application/pdf" });
     res.end(file, "binary");
+}
+
+function rotate(req, res, next) {
+    const docid = san(req.params.docid);
+    const id = req.params.genid ? san(req.params.genid) : 0;
+    const rot = parseInt(req.query.rot);
+    const thumbname = ".thumb";
+
+    const imagepath = conf.doc.imagepath + docid + "." + id + ".png";
+    const thumbpath = conf.doc.imagepath + docid + "." + id + ".thumb.png";
+
+    Jimp.read(imagepath)
+        .then((image) => {
+            image.rotate(rot).write(imagepath, (info) => {
+                Jimp.read(thumbpath)
+                    .then((image) => {
+                        image.rotate(rot).write(thumbpath, (info) => {
+                            res.send({ ret: "ok", info: info });
+                            res.end();
+                        });
+                    })
+                    .catch((err) => {
+                        res.send({ ret: "err", path: thumbpath, err: err });
+                        res.end();
+                    });
+            });
+        })
+        .catch((err) => {
+            res.send({ ret: "err", path: imagepath, err: err });
+            res.end();
+        });
 }
 
 module.exports = router;

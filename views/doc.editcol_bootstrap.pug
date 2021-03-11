@@ -1,11 +1,11 @@
-a.deletepreview.btn.btn-link(href="#" id='delpage_' + n) 
+a.deletepreview.btn.btn-link(href="#", id='delpage_' + n) 
     i.bi.bi-scissors.tooltipped.ppkediticon(
         data-bs-toggle="tooltip",
         data-bs-placement="bottom",
         title="Diese Seite löschen. Das ursprüngliche PDF bleibt unverändert, es wird nur das Vorschaubild gelöscht."
     )
 
-a.rotateback.btn.btn-link(href="#" id='rotateback' + n, data-id='image_' + n)
+a.rotateback.btn.btn-link(href="#", id='rotateback' + n, data-id='image_' + n)
     i.bi.bi-arrow-bar-up.tooltipped.ppkediticon(
         data-bs-toggle="tooltip",
         data-bs-placement="bottom",
@@ -33,6 +33,13 @@ a.rotateright.btn.btn-link(id='rotateright' + n, data-id='image_' + n)
         title="rechts drehen"
     )
 
+a.rotatesave.btn.btn-link(id='rotatesave' + n, data-id='image_' + n)
+    i.bi.bi-check2-square.tooltipped.ppkediticon(
+        data-bs-toggle="tooltip",
+        data-bs-placement="bottom",
+        title="Rotation speichern"
+    )
+
 a.btn.btn-link(href='/doc/' + data._id + '/move/up/?page=' + n + '#page' + n)
     i.bi.bi-file-arrow-down.tooltipped.ppkediticon(
         data-bs-toggle="tooltip",
@@ -47,10 +54,7 @@ a.btn.btn-link(href='/doc/' + data._id + '/move/down/?page=' + n + '#page' + n)
         title="Seite nach unten verschieben"
     )
 
-a.reloadpreview.btn.btn-link(
-    id='reloadpage_' + n,
-    data-id='image_' + n,
-)
+a.reloadpreview.btn.btn-link(id='reloadpage_' + n, data-id='image_' + n)
     i.bi.bi-arrow-repeat.tooltipped.ppkediticon(
         data-bs-toggle="tooltip",
         data-bs-placement="bottom",

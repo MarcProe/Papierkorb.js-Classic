@@ -16,12 +16,12 @@ block content
                                 include doc.editcol_bootstrap.pug
                     .row
                         .col
-                            img.mw-100(
-                                id='image_' + n,
-                                src=conf.proxy.preview + data._id + '.' + n + '.thumb.png',
-                                data-src=conf.proxy.preview + data._id + '.' + n + '.png',
-                                loading="lazy"
-                            )
+                            .preparent(id='image_' + n + '_container')
+                                img.mw-100.ppkprevimage(
+                                    id='image_' + n,
+                                    src=conf.proxy.preview + data._id + '.' + n + '.thumb.png',
+                                    data-src=conf.proxy.preview + data._id + '.' + n + '.png'
+                                )
                             //img.img-responsive.preview(id='image_' + n src=conf.proxy.preview + data._id + '.' + n + '.thumb.png' data-src=conf.proxy.preview + data._id + '.' + n + '.png')
                     - n++;
             .col-sm-3
@@ -93,7 +93,7 @@ block content
                             #ocr.determinate
                 .form-group
                     label(for="subjectselect") Betreff:
-                    input#subjectselect.w-100(type="text" autocomplete="off")
+                    input#subjectselect(type="text" autocomplete="off")
                 .form-group
                     label(for="docdate") Datum:
                     if (data.founddate)
@@ -149,7 +149,8 @@ block content
                     textarea.doctext.form-control(rows="10")= data.plaintext
     include doc.modaldelete_bootstrap.pug
     include doc.toasts_bootstrap.pug
+
     script(src=conf.proxy.public + 'js/t/tesseract.js')
     script(src=conf.proxy.public + 'js/autocomplete_bootstrap.js')
     script(src=conf.proxy.public + 'js/views/doc.ocr_bootstrap.js')
-    script(src=conf.proxy.public + 'js/views/doc_bootstrap.js')
+    script#docjs(src=conf.proxy.public + 'js/views/doc_bootstrap.js' data-public=conf.proxy.public)

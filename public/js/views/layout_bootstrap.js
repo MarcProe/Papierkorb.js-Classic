@@ -10,6 +10,7 @@ $(document).ready(function () {
     $("#modalsearch").modal();
 
     $("#btnscrollup").click(function () {
+        console.log($(this));
         $("html, body").animate(
             {
                 scrollTop: 0,
