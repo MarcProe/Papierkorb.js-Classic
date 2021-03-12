@@ -4,6 +4,8 @@ const router = express.Router();
 const render = require("../modules/render.js");
 const sq = require("../modules/searchquery.js");
 
+const _ = require("lodash");
+
 const conf = require("config").get("conf");
 
 const inspect = require("eyes").inspector({ maxLength: 20000 });
@@ -22,7 +24,10 @@ function handle(req, res, next) {
     let flags = "i"; //regex flags used
 
     if (req.body.navsearch) {
-        let plainQuery = new RegExp(req.body.navsearch.trim(), "i");
+        let plainQuery = new RegExp(
+            _.escapeRegExp(req.body.navsearch).trim(),
+            "i"
+        );
 
         query.$or = [];
         query.$or.push({ plaintext: plainQuery });

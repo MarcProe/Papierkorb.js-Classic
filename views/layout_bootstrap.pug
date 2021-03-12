@@ -65,7 +65,7 @@ html
         script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js")
 
         script(src=conf.proxy.public + 'js/moment.min.js')
-        script(src=conf.proxy.public + 'js/views/layout_bootstrap.js')
+        script#layoutjs(src=conf.proxy.public + 'js/views/layout_bootstrap.js' data-public=conf.proxy.public)
 
     body(
         data-conf-proxy-public=conf.proxy.public,

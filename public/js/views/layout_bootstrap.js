@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    const pubPath = $("#layoutjs").attr("data-public");
+
     //allow click only once
     $(".oneclick").one("click", function () {
         $(this).click(function () {
@@ -8,6 +10,15 @@ $(document).ready(function () {
     });
 
     $("#modalsearch").modal();
+
+    $("img").each(function () {
+        var imgObj = $(this);
+        var img = new Image();
+        img.onerror = function () {
+            imgObj.attr("src", `${pubPath}images/papierkorb-logo.png`);
+        };
+        img.src = imgObj.attr("src");
+    });
 
     $("#btnscrollup").click(function () {
         console.log($(this));
@@ -104,95 +115,4 @@ $(document).ready(function () {
     $("#modalsearchbutton").on("click", function () {
         $("#modalsearchform").submit();
     });
-
-    //Initialize Datepicker
-    //TODO BOOTSTRAP
-    /*
-    $("#docdatesearchinputfrom").pickadate({
-        onStart: function () {},
-        onOpen: function () {},
-        format: "dd.mm.yyyy",
-        selectMonths: true,
-        selectYears: 15,
-        today: "Heute",
-        clear: "L&ouml;schen",
-        close: "Ok",
-        closeOnSelect: false,
-        monthsFull: [
-            "Januar",
-            "Februar",
-            "März",
-            "April",
-            "Mai",
-            "Juni",
-            "Juli",
-            "August",
-            "September",
-            "Oktober",
-            "November",
-            "Dezember",
-        ],
-        monthsShort: [
-            "Jan",
-            "Feb",
-            "Mär",
-            "Apr",
-            "Mai",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Okt",
-            "Nov",
-            "Dez",
-        ],
-        weekdaysShort: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
-        firstDay: 1,
-        min: false,
-        max: 365,
-    });
-    $("#docdatesearchinputto").pickadate({
-        onStart: function () {},
-        onOpen: function () {},
-        format: "dd.mm.yyyy",
-        selectMonths: true,
-        selectYears: 15,
-        today: "Heute",
-        clear: "L&ouml;schen",
-        close: "Ok",
-        closeOnSelect: false,
-        monthsFull: [
-            "Januar",
-            "Februar",
-            "März",
-            "April",
-            "Mai",
-            "Juni",
-            "Juli",
-            "August",
-            "September",
-            "Oktober",
-            "November",
-            "Dezember",
-        ],
-        monthsShort: [
-            "Jan",
-            "Feb",
-            "Mär",
-            "Apr",
-            "Mai",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Okt",
-            "Nov",
-            "Dez",
-        ],
-        weekdaysShort: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
-        firstDay: 1,
-        min: false,
-        max: 365,
-    });
-    */
 });

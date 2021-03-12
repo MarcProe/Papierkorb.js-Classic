@@ -25,28 +25,27 @@ $(document).ready(function () {
 
     const idregex = /.*(\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}\.\d{3}Z\.pdf).*/g;
     const docid = idregex.exec(window.location.href)[1];
-    const scriptPath = $("#docjs").attr("data-public") + "js/views/";
+    const pubPath = $("#docjs").attr("data-public");
+    const scriptPath = `${pubPath}js/views/`;
 
     //Initialize Datepicker
-    $.getJSON(
-        `${scriptPath}doc_bootstrap.datepicker_config.json`,
-        (dpconfig) => {
-            //override JQuery Datepicker function to actually pick "today" on pressing "today"
-            var old_goToToday = $.datepicker._gotoToday;
-            $.datepicker._gotoToday = function (id) {
-                old_goToToday.call(this, id);
-                this._selectDate(id);
-            };
-            $("#docdate")
-                .datepicker(dpconfig)
-                .change(() => {
-                    redsave();
-                });
-        }
-    );
+    $.getJSON(`${scriptPath}doc_bootstrap.config.json`, (jsonconfig) => {
+        //override JQuery Datepicker function to actually pick "today" on pressing "today"
+        var old_goToToday = $.datepicker._gotoToday;
+        $.datepicker._gotoToday = function (id) {
+            old_goToToday.call(this, id);
+            this._selectDate(id);
+        };
+        $("#docdate")
+            .datepicker(jsonconfig.datepicker)
+            .change(() => {
+                redsave();
+            });
+    });
 
     $.getJSON(`/api/v1/doc/${docid}`, function (docdata) {
         console.log(docdata);
+
         const config = {
             items: [docdata.subject], //current subject (from document)
             options: [{ _id: docdata.subject }], //available subjects (from document)
@@ -75,8 +74,9 @@ $(document).ready(function () {
                 items: [docdata.partner], //currently selected partner (from document)
                 options: partnerlist, //available partners (from api)
 
+                create: true,
                 labelField: "_id",
-                persist: false,
+                persist: true,
                 openOnFocus: true,
                 searchField: "_id",
                 sortField: "_id",
@@ -142,17 +142,6 @@ $(document).ready(function () {
             ocr(0, docdata);
         });
 
-        //setTimeout(function () {
-        //    $(".previewcontainer").css("min-height", "0px");
-        //}, 600);
-
-        //load a placeholder if preview image is not (yet) created
-        /*
-        imgsel.on("error", function () {
-            $(this).unbind("error");
-            $(this).attr("src", "/images/papierkorb-logo.png");
-        });
-        */
         $(".ppkprevimage").resizable({
             containment: ".preparent",
         });
@@ -258,49 +247,53 @@ $(document).ready(function () {
         if ($(".doctext").val() === "") {
             //ocr(0, docdata);
         }
-    });
 
-    $("#save").on("click", function () {
-        const docdata = {};
+        $("#save").on("click", function () {
+            const docdata = {};
 
-        docdata.subject = $("#subjectselect")[0].tomselect.getValue().trim();
-        docdata.partner = $("#partnerselect")[0].tomselect.getValue().trim();
-        docdata.docdate = $("#docdate").val().trim();
+            docdata.subject = $("#subjectselect")[0]
+                .tomselect.getValue()
+                .trim();
+            docdata.partner = $("#partnerselect")[0]
+                .tomselect.getValue()
+                .trim();
+            docdata.docdate = $("#docdate").val().trim();
 
-        const tags = $("#tagselect")[0].tomselect.getValue();
+            const tags = $("#tagselect")[0].tomselect.getValue();
 
-        docdata.tags = [];
-        tags.forEach((value) => {
-            if (value && value !== "") {
-                docdata.tags.push(value.trim());
-            }
-        });
-        if (docdata.tags.length === 0) {
-            delete docdata.tags;
-        }
-
-        docdata.users = [];
-        $('input:checked[name="users"]').each(function () {
-            if ($(this).val() && $(this).val() !== "") {
-                docdata.users.push($(this).val());
-            }
-        });
-        if (docdata.users.length === 0) {
-            delete docdata.users;
-        }
-
-        $.post(
-            "/api/v1/doc/" + docid + "/",
-            $.param(docdata, true),
-            function (data, status) {
-                if (status === "success") {
-                    bluesave();
-                    sokObj.show();
-                } else {
-                    snoObj.show();
+            docdata.tags = [];
+            tags.forEach((value) => {
+                if (value && value !== "") {
+                    docdata.tags.push(value.trim());
                 }
-            },
-            "json"
-        );
+            });
+            if (docdata.tags.length === 0) {
+                delete docdata.tags;
+            }
+
+            docdata.users = [];
+            $('input:checked[name="users"]').each(function () {
+                if ($(this).val() && $(this).val() !== "") {
+                    docdata.users.push($(this).val());
+                }
+            });
+            if (docdata.users.length === 0) {
+                delete docdata.users;
+            }
+
+            $.post(
+                "/api/v1/doc/" + docid + "/",
+                $.param(docdata, true),
+                function (data, status) {
+                    if (status === "success") {
+                        bluesave();
+                        sokObj.show();
+                    } else {
+                        snoObj.show();
+                    }
+                },
+                "json"
+            );
+        });
     });
 });
