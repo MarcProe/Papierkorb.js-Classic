@@ -30,7 +30,7 @@
         "memorystore": "^1.6.5",
         "mkdirp": "^1.0.4",
         "moment": "^2.29.1",
-        "mongodb": "^3.6.4",
+        "mongodb": "^4.0.1",
         "monk": "^7.3.3",
         "morgan": "^1.10.0",
         "pad-start": "^1.0.2",
