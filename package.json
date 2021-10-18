@@ -42,7 +42,7 @@
     "devDependencies": {
         "asleep": "^1.0.3",
         "chai": "^4.3.3",
-        "mocha": "^8.3.1",
+        "mocha": "^9.1.3",
         "request": "^2.88.0",
         "should": "^13.2.3",
         "stylelint": "^13.12.0",
