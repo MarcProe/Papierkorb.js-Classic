@@ -3,6 +3,7 @@
 # Papierkorb.js _Classic_
 
 [![Build Status](https://travis-ci.org/MarcProe/Papierkorb.js-Classic.svg?branch=main)](https://travis-ci.org/MarcProe/Papierkorb.js-Classic)
+[![Lint Code Base](https://github.com/MarcProe/Papierkorb.js-Classic/actions/workflows/linter.yml/badge.svg)](https://github.com/MarcProe/Papierkorb.js-Classic/actions/workflows/linter.yml)
 
 [![Codacy Security Scan](https://github.com/MarcProe/Papierkorb.js-Classic/actions/workflows/codacy-analysis.yml/badge.svg)](https://github.com/MarcProe/Papierkorb.js-Classic/actions/workflows/codacy-analysis.yml)
 [![CodeQL](https://github.com/MarcProe/Papierkorb.js-Classic/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/MarcProe/Papierkorb.js-Classic/actions/workflows/codeql-analysis.yml)
