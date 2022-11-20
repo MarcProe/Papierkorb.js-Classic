@@ -62,3 +62,5 @@ typings/
 
 #datadir
 data
+
+gh_token

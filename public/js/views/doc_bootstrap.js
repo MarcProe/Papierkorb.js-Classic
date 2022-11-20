@@ -14,11 +14,19 @@ $(document).ready(function () {
             .addClass("ppknavicon");
     }
 
+    $(".jqusers").on("click", () => {
+        redsave();
+    });
+
     const sokObj = new bootstrap.Toast($("#saveoktoast")[0], {
         autohide: true,
         delay: 1500,
     });
     const snoObj = new bootstrap.Toast($("#savenotoast")[0], {
+        autohide: true,
+        delay: 1500,
+    });
+    const sdelcObj = new bootstrap.Toast($("#delclicktoast")[0], {
         autohide: true,
         delay: 1500,
     });
@@ -95,26 +103,17 @@ $(document).ready(function () {
             height: +$("#pageheadercol").height(),
         });
 
-        //delete preview "are you sure"
-        //TODO BOOTSTAP THIS
-        $(".deletepreview").on("click", function () {
-            const page = this.id.split("_").pop();
-            Materialize.Toast.removeAll();
-            const $toastContent = $(
-                '<i class="material-icons medium white-text">delete_forever</i>'
-            ).add(
-                $(
-                    '<a href="/doc/' +
-                        docdata._id +
-                        "/delete/" +
-                        page +
-                        "?previews=" +
-                        docdata.previews +
-                        '" class="btn-flat toast-action">Sicher?</button>'
-                )
-            );
-            Materialize.toast($toastContent, 10000, "rounded");
-        });
+        $(".deletepreview")
+            .on("dblclick", function () {
+                const page = this.id.split("_").pop();
+                const link = `/doc/${docdata._id}/delete/${page}?previews=${docdata.previews}`;
+                window.top.location.href = link;
+            })
+            .on("click", () => {
+                setTimeout(function () {
+                    sdelcObj.show();
+                }, 500);
+            });
 
         //tags
         $.getJSON("/api/v1/tags", function (taglist) {
@@ -159,7 +158,7 @@ $(document).ready(function () {
             const ip = i.parent();
 
             i.css({
-                transform: "rotate(" + deg + "deg)",
+                transform: `rotate(${deg}deg)`,
             });
 
             i.attr("data-rotation", deg);
@@ -282,7 +281,7 @@ $(document).ready(function () {
             }
 
             $.post(
-                "/api/v1/doc/" + docid + "/",
+                `/api/v1/doc/${docid}/`,
                 $.param(docdata, true),
                 function (data, status) {
                     if (status === "success") {
