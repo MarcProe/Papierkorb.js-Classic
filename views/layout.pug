@@ -54,7 +54,7 @@ html
                 li
                     a.blue-text(href="/doc/?orphan=tags") Tags
                         i.material-icons.left label
-            ul#slide-out.side-nav
+            ul#slide-out.sidenav
                 include layout.menu.collapsed.pug
             #navbar.navbar-fixed
                 nav.blue
@@ -68,7 +68,7 @@ html
                                     != title
                                 if (conf.warn)
                                     span.red= '_WARNUNG!'
-                        a.button-collapse(href="#", data-activates="slide-out")
+                        a.sidenav-trigger(href="#" data-target="slide-out")
                             i.material-icons menu
                         ul.right.hide-on-med-and-down
                             include layout.menu.pug
