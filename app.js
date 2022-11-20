@@ -1,3 +1,4 @@
+require('dotenv').config();
 let express = require("express");
 let path = require("path");
 let favicon = require("serve-favicon");
@@ -101,7 +102,7 @@ app.use("/download", express.static(path.join(__dirname, conf.doc.basepath)));
 app.use(fileUpload());
 app.use(
     session({
-        secret: "fgdg345DFG4324ftr$§fqa3f43fq$Q§",
+        secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: true,
         store: new MemoryStore({
