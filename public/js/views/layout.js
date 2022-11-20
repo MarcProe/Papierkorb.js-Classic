@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    $('.sidenav').sidenav();
+
     //allow click only once
     $(".oneclick").one("click", function () {
         $(this).click(function () {
@@ -28,14 +30,18 @@ $(document).ready(function () {
         }
     });
 
-    $(".button-collapse").sideNav({
+    /*$(".button-collapse").sideNav({
         draggable: true,
         menuWidth: 300
     });
-    $('.collapsible').collapsible();
+    $('.collapsible').collapsible();*/
 
+    $('.dropdown-trigger').dropdown({
+        // specify options here
+    });
+      
     //orphan menu drowpdown
-    $(".dropdown-button").dropdown();
+    //$(".dropdown-button").dropdown();
 
 
     //Initialize Partner Autocomplete
@@ -50,11 +56,11 @@ $(document).ready(function () {
         let psttsel = $('#pstt');
         psttsel.attr('data-tooltip', '<div class="flow-text">' + tooltippartnerlist + '</div>');
 
-        $('#partnersearchinput').autocomplete({
+        /*$('#partnersearchinput').autocomplete({
             data: plist,
             limit: 20,
             minLength: 1
-        });
+        });*/
         psttsel.tooltip({delay: 50});
     });
 
@@ -69,11 +75,11 @@ $(document).ready(function () {
         let tsttsel = $('#tstt');
         tsttsel.attr('data-tooltip', '<div class="flow-text">' + tooltiptaglist + '</div>');
 
-        $('#tagsearchinput').autocomplete({
+        /*$('#tagsearchinput').autocomplete({
             data: taglist,
             limit: 20,
             minLength: 1
-        });
+        });*/
         tsttsel.tooltip({delay: 50});
     });
 
@@ -83,7 +89,7 @@ $(document).ready(function () {
     });
 
     //Initialize Datepicker
-    $('#docdatesearchinputfrom').pickadate({
+    /*$('#docdatesearchinputfrom').pickadate({
         onStart: function () {
         },
         onOpen: function () {
@@ -101,8 +107,8 @@ $(document).ready(function () {
         firstDay: 1,
         min: false,
         max: 365
-    });
-    $('#docdatesearchinputto').pickadate({
+    });*/
+    /*$('#docdatesearchinputto').pickadate({
         onStart: function () {
         },
         onOpen: function () {
@@ -120,5 +126,5 @@ $(document).ready(function () {
         firstDay: 1,
         min: false,
         max: 365
-    });
+    });*/
 });
