@@ -91,7 +91,7 @@ block content
                 )
             .form-group
                 label(for="docdate") Datum:
-                input.docdate(type="text")
+                input#docdate.docdate(type="text")
                 //if (data.founddate)
                     input#docdate.form-control.datepicker.red-text.datedoc(
                         type="text",
@@ -143,15 +143,19 @@ block content
                     - partnerval = data.partner;
                 label(for="partner") Partner:
                 if (data.foundpartner)
-                    input#partner.autocomplete.red-text(
-                        name="partner",
-                        value=partnerval
-                    )
+                    div.input-field
+                        input#partner.autocomplete.red-text(
+                            name="partner",
+                            value=partnerval,
+                            type="text"
+                        )
                 else
-                    input#partner.autocomplete(
-                        name="partner",
-                        value=partnerval
-                    )
+                    div.input-field
+                        input#partner.autocomplete(
+                            name="partner",
+                            value=partnerval,
+                            type="text"
+                        )
 
             .row &nbsp;
             .row

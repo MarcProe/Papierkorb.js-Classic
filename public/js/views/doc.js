@@ -28,7 +28,7 @@ $(document).ready(function () {
                 monthsShort: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
                 weekdays: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
                 weekdaysShort: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
-                weekdaysAbbrev: ['S','M','D','M','D','F','S']
+                weekdaysAbbrev: ['S', 'M', 'D', 'M', 'D', 'F', 'S']
             },
             onOpen: function () {
                 $('#docdate').removeClass('red-text');
@@ -73,6 +73,15 @@ $(document).ready(function () {
             }
 
             let partnersel = $('#partner');
+            partnersel.autocomplete({
+                // specify options here
+                data: plist,
+                onAutocomplete: function () {
+                    redsave();
+                },
+                minLength: 1,
+            });
+
             /*partnersel.autocomplete({
                 data: plist,
                 limit: 20,
@@ -81,12 +90,12 @@ $(document).ready(function () {
                 },
                 minLength: 1,
             });
-
+            */
             partnersel.on('click', function () {
                 $(this).val('');
                 $(this).removeClass('red-text');
                 redsave();
-            });*/
+            });
         });
 
         //Initialize modal delete dialogue
@@ -120,7 +129,7 @@ $(document).ready(function () {
             let seltags = [];
             if (docdata.tags) {
                 docdata.tags.forEach(function (tag) {
-                    seltags.push({tag: tag});
+                    seltags.push({ tag: tag });
                 });
             }
 
@@ -135,7 +144,7 @@ $(document).ready(function () {
 
             let tagstooltipsel = $('#tagstooltip');
             tagstooltipsel.attr('data-tooltip', '<div class="flow-text">' + tagtooltip + '</div>');
-            tagstooltipsel.tooltip({delay: 50});
+            tagstooltipsel.tooltip({ delay: 50 });
 
             let chipssel = $('.chips');
             let chipsautocompletesel = $('.chips-autocomplete');
@@ -242,7 +251,7 @@ $(document).ready(function () {
 
         docdata.subject = $('#subject').val().trim();
         docdata.partner = $('#partner').val().trim();
-        docdata.docdate = M.Datepicker.getInstance($('.docdate')).toString(); //$('#docdate').val();
+        docdata.docdate = M.Datepicker.getInstance($('#docdate')).toString(); //$('#docdate').val();
         let tags = $('#hidden_tags').val();
         docdata.tags = [];
         $.each(JSON.parse(tags), function (key, value) {
@@ -268,7 +277,7 @@ $(document).ready(function () {
                 $('#save').removeClass('red').removeClass('blue').addClass('blue');
                 $('#saveicon').text('done');
                 M.toast({
-                    text: 'Gespeichert.', 
+                    text: 'Gespeichert.',
                     displayLength: 1000,
                     inDuration: 1000,
                     outDuration: 1000,
