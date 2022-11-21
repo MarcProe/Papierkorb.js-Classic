@@ -5,15 +5,30 @@ $(document).ready(function () {
         $('#save').removeClass('blue').removeClass('red').addClass('red');
     }
 
-    $('select').material_select();
+    //$('select').material_select();
 
     let idregex = /.*(\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}\.\d{3}Z\.pdf).*/g;
     let docid = idregex.exec(window.location.href)[1];
 
     $.getJSON('/api/v1/doc/' + docid, function (docdata) {
 
+        let date = new Date(docdata.docdate);
+        $('.docdate').datepicker({
+            // specify options here
+            defaultDate: date,
+            setDefaultDate: true,
+            format: "dd.mm.yyyy",
+        });
+        console.log(docdata);
+        year = moment.utc(docdata.docdate, 'DD.MM.YYYY').format("YYYY");
+        month = moment.utc(docdata.docdate, 'DD.MM.YYYY').format("MM");
+        day = moment.utc(docdata.docdate, 'DD.MM.YYYY').format("DD");
+
+        date = moment.utc(docdata.docdate, 'DD.MM.YYYY').toDate()
+        console.log(date, year, month, day);
+        console.log(new Date(docdata.docdate));
         //Initialize Datepicker
-        $('.datedoc').pickadate({
+        /*$('.datedoc').pickadate({
             onStart: function () {
                 let docdatesel = $('#docdate');
                 year = moment.utc(docdatesel.val(), 'DD.MM.YYYY').format("YYYY");
@@ -38,7 +53,7 @@ $(document).ready(function () {
             firstDay: 1,
             min: false,
             max: 365
-        });
+        });*/
 
         //Initialize Partner Autocomplete
         $.getJSON('/api/v1/partners', function (partnerlist) {
@@ -48,7 +63,7 @@ $(document).ready(function () {
             }
 
             let partnersel = $('#partner');
-            partnersel.autocomplete({
+            /*partnersel.autocomplete({
                 data: plist,
                 limit: 20,
                 onAutocomplete: function (val) {
@@ -61,7 +76,7 @@ $(document).ready(function () {
                 $(this).val('');
                 $(this).removeClass('red-text');
                 redsave();
-            });
+            });*/
         });
 
         //Initialize modal delete dialogue
@@ -114,9 +129,9 @@ $(document).ready(function () {
 
             let chipssel = $('.chips');
             let chipsautocompletesel = $('.chips-autocomplete');
-            chipssel.material_chip();
+            //chipssel.material_chip();
 
-            chipsautocompletesel.material_chip({
+            /*chipsautocompletesel.material_chip({
                 placeholder: 'Tags eingeben',
                 secondaryPlaceholder: 'Mehr Tags',
                 autocompleteOptions: {
@@ -125,7 +140,7 @@ $(document).ready(function () {
                     minLength: 1
                 },
                 data: seltags
-            });
+            });*/
 
             let hiddentagssel = $('#hidden_tags');
             hiddentagssel.val(JSON.stringify(seltags)); //store array

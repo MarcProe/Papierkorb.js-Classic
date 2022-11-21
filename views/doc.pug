@@ -91,21 +91,22 @@ block content
                 )
             .form-group
                 label(for="docdate") Datum:
-                if (data.founddate)
+                input.docdate(type="text")
+                //if (data.founddate)
                     input#docdate.form-control.datepicker.red-text.datedoc(
                         type="text",
                         placeholder="Datum",
                         name="docdate",
                         value=moment.utc(data.docdate).format('DD.MM.YYYY')
                     )
-                else if (data.docdate)
+                //else if (data.docdate)
                     input#docdate.form-control.datepicker.datedoc(
                         type="text",
                         placeholder="Datum",
                         name="docdate",
                         value=moment.utc(data.docdate).format('DD.MM.YYYY')
                     )
-                else
+                //else
                     input#docdate.form-control.datepicker.datedoc(
                         type="text",
                         placeholder="Datum",
@@ -116,22 +117,24 @@ block content
                 label(for="users") Besitzer:
                 br
                 each user in session.userlist
-                    if (data.users.indexOf(user.name) > -1)
-                        input.jqusers(
-                            type="checkbox",
-                            id='user_' + user.name,
-                            name="users",
-                            value=user.name,
-                            checked="checked"
-                        )
-                    else
-                        input.jqusers(
-                            type="checkbox",
-                            id='user_' + user.name,
-                            name="users",
-                            value=user.name
-                        )
-                    label(for='user_' + user.name)= user.name
+                    //label(for='user_' + user.name)= user.name
+                    label(for='user_' + user.name)
+                        if (data.users.indexOf(user.name) > -1)
+                            input.jqusers(
+                                type="checkbox",
+                                id='user_' + user.name,
+                                name="users",
+                                value=user.name,
+                                checked="checked"
+                            )
+                        else
+                            input.jqusers(
+                                type="checkbox",
+                                id='user_' + user.name,
+                                name="users",
+                                value=user.name
+                            )
+                        span= user.name
                     br
                     br
             .form-group
