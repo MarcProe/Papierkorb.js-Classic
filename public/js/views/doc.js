@@ -11,11 +11,11 @@ $(document).ready(function () {
     let docid = idregex.exec(window.location.href)[1];
 
     $.getJSON('/api/v1/doc/' + docid, function (docdata) {
-
+        console.log(docdata);
         let date = new Date(docdata.docdate);
         $('.docdate').datepicker({
             // specify options here
-            defaultDate: date,
+            defaultDate: date, // TODO: founddate
             setDefaultDate: true,
             format: "dd.mm.yyyy",
             firstDay: 1,
@@ -29,7 +29,11 @@ $(document).ready(function () {
                 weekdays: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
                 weekdaysShort: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
                 weekdaysAbbrev: ['S','M','D','M','D','F','S']
-            }
+            },
+            onOpen: function () {
+                $('#docdate').removeClass('red-text');
+                redsave();
+            },
 
         });
 
@@ -238,7 +242,7 @@ $(document).ready(function () {
 
         docdata.subject = $('#subject').val().trim();
         docdata.partner = $('#partner').val().trim();
-        docdata.docdate = $('#docdate').val();
+        docdata.docdate = M.Datepicker.getInstance($('.docdate')).toString(); //$('#docdate').val();
         let tags = $('#hidden_tags').val();
         docdata.tags = [];
         $.each(JSON.parse(tags), function (key, value) {
@@ -263,7 +267,12 @@ $(document).ready(function () {
             if (status === 'success') {
                 $('#save').removeClass('red').removeClass('blue').addClass('blue');
                 $('#saveicon').text('done');
-                Materialize.toast('Gespeichert.', 4000);
+                M.toast({
+                    text: 'Gespeichert.', 
+                    displayLength: 1000,
+                    inDuration: 1000,
+                    outDuration: 1000,
+                });
                 setTimeout(function () {
                     $('#saveicon').text('save');
                 }, 2000);
