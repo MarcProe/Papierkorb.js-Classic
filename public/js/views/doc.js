@@ -18,15 +18,21 @@ $(document).ready(function () {
             defaultDate: date,
             setDefaultDate: true,
             format: "dd.mm.yyyy",
-        });
-        console.log(docdata);
-        year = moment.utc(docdata.docdate, 'DD.MM.YYYY').format("YYYY");
-        month = moment.utc(docdata.docdate, 'DD.MM.YYYY').format("MM");
-        day = moment.utc(docdata.docdate, 'DD.MM.YYYY').format("DD");
+            firstDay: 1,
+            showClearBtn: false,
+            i18n: {
+                cancel: "Abbrechen",
+                clear: "L&ouml;schen",
+                done: "Ok",
+                months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+                monthsShort: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
+                weekdays: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
+                weekdaysShort: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
+                weekdaysAbbrev: ['S','M','D','M','D','F','S']
+            }
 
-        date = moment.utc(docdata.docdate, 'DD.MM.YYYY').toDate()
-        console.log(date, year, month, day);
-        console.log(new Date(docdata.docdate));
+        });
+
         //Initialize Datepicker
         /*$('.datedoc').pickadate({
             onStart: function () {
