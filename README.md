@@ -11,4 +11,4 @@ This is a personal development repository.
 
 Papierkorb is a web application used to manage private documents.
 
-Papierkorb uses [Node.js](https://github.com/nodejs/node), [Pug](https://github.com/pugjs/pug), [Bootstrap](https://github.com/twbs), [MongoDB](https://github.com/mongodb/mongo), [Tesseract.js](https://github.com/naptha/tesseract.js) and [some other libraries](https://github.com/MarcProe/Papierkorb.js-Classic/blob/master/package.json).
+Papierkorb uses [Node.js](https://github.com/nodejs/node), [Pug](https://github.com/pugjs/pug), [Materialize](https://materializecss.github.io/materialize/), [MongoDB](https://github.com/mongodb/mongo), [Tesseract.js](https://github.com/naptha/tesseract.js) and [some other libraries](https://github.com/MarcProe/Papierkorb.js-Classic/blob/master/package.json).
