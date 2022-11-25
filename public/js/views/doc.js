@@ -4,8 +4,6 @@ $(document).ready(function () {
         $("#save").removeClass("blue").removeClass("red").addClass("red");
     }
 
-    //$('select').material_select();
-
     let idregex = /.*(\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}\.\d{3}Z\.pdf).*/g;
     let docid = idregex.exec(window.location.href)[1];
 
@@ -69,34 +67,6 @@ $(document).ready(function () {
             },
         });
 
-        //Initialize Datepicker
-        /*$('.datedoc').pickadate({
-            onStart: function () {
-                let docdatesel = $('#docdate');
-                year = moment.utc(docdatesel.val(), 'DD.MM.YYYY').format("YYYY");
-                month = moment.utc(docdatesel.val(), 'DD.MM.YYYY').format("MM");
-                day = moment.utc(docdatesel.val(), 'DD.MM.YYYY').format("DD");
-                this.set(year, month, day);
-            },
-            onOpen: function () {
-                $('#docdate').removeClass('red-text');
-                redsave();
-            },
-            format: 'dd.mm.yyyy',
-            selectMonths: true,
-            selectYears: 15,
-            today: 'Heute',
-            clear: 'L&ouml;schen',
-            close: 'Ok',
-            closeOnSelect: true,
-            monthsFull: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
-            monthsShort: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
-            weekdaysShort: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
-            firstDay: 1,
-            min: false,
-            max: 365
-        });*/
-
         //Initialize Partner Autocomplete
         $.getJSON("/api/v1/partners", function (partnerlist) {
             let plist = {};
@@ -114,15 +84,6 @@ $(document).ready(function () {
                 minLength: 1,
             });
 
-            /*partnersel.autocomplete({
-                data: plist,
-                limit: 20,
-                onAutocomplete: function (val) {
-                    redsave();
-                },
-                minLength: 1,
-            });
-            */
             partnersel.on("click", function () {
                 $(this).val("");
                 $(this).removeClass("red-text");
@@ -191,11 +152,8 @@ $(document).ready(function () {
             );
             tagstooltipsel.tooltip({ delay: 50 });
 
-            //let chipssel = $(".chips");
             let chipsautocompletesel = $(".chips-autocomplete");
             let hiddentagssel = $("#hidden_tags");
-
-            //chipssel.chips({});
 
             chipsautocompletesel.chips({
                 placeholder: 'Tags eingeben',
@@ -221,33 +179,6 @@ $(document).ready(function () {
             });
 
             hiddentagssel.val(JSON.stringify(seltags)); //store initial array
-
-            //chipssel.material_chip();
-
-            /*chipsautocompletesel.material_chip({
-                placeholder: 'Tags eingeben',
-                secondaryPlaceholder: 'Mehr Tags',
-                autocompleteOptions: {
-                    data: tags,
-                    limit: Infinity,
-                    minLength: 1
-                },
-                data: seltags
-            });*/
-
-            /*
-            chipssel.on("chip.add", function (e, chip) {
-                hiddentagssel.val(
-                    JSON.stringify(chipsautocompletesel.material_chip("data"))
-                );
-            });
-
-            chipssel.on("chip.delete", function (e, chip) {
-                hiddentagssel.val(
-                    JSON.stringify(chipsautocompletesel.material_chip("data"))
-                );
-            });
-            */
         });
 
         //init unveil
@@ -377,10 +308,6 @@ $(document).ready(function () {
     });
 
     $("#partner,#subject").on("input", function () {
-        redsave();
-    });
-
-    $(".chips").on("chip.delete chip.add", function (e, chip) {
         redsave();
     });
 
