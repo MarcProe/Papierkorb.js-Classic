@@ -151,12 +151,12 @@ $(document).ready(function () {
             ).add(
                 $(
                     '<a href="/doc/' +
-                        docdata._id +
-                        "/delete/" +
-                        page +
-                        "?previews=" +
-                        docdata.previews +
-                        '" class="btn-flat toast-action">Sicher?</button>'
+                    docdata._id +
+                    "/delete/" +
+                    page +
+                    "?previews=" +
+                    docdata.previews +
+                    '" class="btn-flat toast-action">Sicher?</button>'
                 )
             );
             Materialize.toast($toastContent, 10000, "rounded");
@@ -191,8 +191,37 @@ $(document).ready(function () {
             );
             tagstooltipsel.tooltip({ delay: 50 });
 
-            let chipssel = $(".chips");
+            //let chipssel = $(".chips");
             let chipsautocompletesel = $(".chips-autocomplete");
+            let hiddentagssel = $("#hidden_tags");
+
+            //chipssel.chips({});
+
+            chipsautocompletesel.chips({
+                placeholder: 'Tags eingeben',
+                secondaryPlaceholder: 'Mehr Tags',
+                autocompleteOptions: {
+                    data: tags,
+                    limit: Infinity,
+                    minLength: 1
+                },
+                data: seltags,
+                onChipAdd: () => {
+                    hiddentagssel.val(
+                        JSON.stringify(M.Chips.getInstance(chipsautocompletesel).chipsData)
+                    );
+                    redsave();
+                },
+                onChipDelete: () => {
+                    hiddentagssel.val(
+                        JSON.stringify(M.Chips.getInstance(chipsautocompletesel).chipsData)
+                    );
+                    redsave();
+                }
+            });
+
+            hiddentagssel.val(JSON.stringify(seltags)); //store initial array
+
             //chipssel.material_chip();
 
             /*chipsautocompletesel.material_chip({
@@ -206,8 +235,7 @@ $(document).ready(function () {
                 data: seltags
             });*/
 
-            let hiddentagssel = $("#hidden_tags");
-            hiddentagssel.val(JSON.stringify(seltags)); //store array
+            /*
             chipssel.on("chip.add", function (e, chip) {
                 hiddentagssel.val(
                     JSON.stringify(chipsautocompletesel.material_chip("data"))
@@ -219,6 +247,7 @@ $(document).ready(function () {
                     JSON.stringify(chipsautocompletesel.material_chip("data"))
                 );
             });
+            */
         });
 
         //init unveil
