@@ -7,6 +7,11 @@ $(document).ready(function () {
     let idregex = /.*(\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}\.\d{3}Z\.pdf).*/g;
     let docid = idregex.exec(window.location.href)[1];
 
+    //TODO subject autocomplete
+    $("#subject").on("input", function () {
+        redsave();
+    });
+
     $.getJSON("/api/v1/doc/" + docid, function (docdata) {
         console.log(docdata);
         let date = new Date(docdata.docdate);
@@ -67,6 +72,11 @@ $(document).ready(function () {
             },
         });
 
+        //User
+        $(".jqusers").on("click", function () {
+            redsave();
+        });
+
         //Initialize Partner Autocomplete
         $.getJSON("/api/v1/partners", function (partnerlist) {
             let plist = {};
@@ -91,6 +101,10 @@ $(document).ready(function () {
             });
         });
 
+        $("#partner").on("input", function () {
+            redsave();
+        });
+
         //Initialize modal delete dialogue
         let modaldeletesel = $("#modaldelete");
         modaldeletesel.modal();
@@ -112,12 +126,12 @@ $(document).ready(function () {
             ).add(
                 $(
                     '<a href="/doc/' +
-                    docdata._id +
-                    "/delete/" +
-                    page +
-                    "?previews=" +
-                    docdata.previews +
-                    '" class="btn-flat toast-action">Sicher?</button>'
+                        docdata._id +
+                        "/delete/" +
+                        page +
+                        "?previews=" +
+                        docdata.previews +
+                        '" class="btn-flat toast-action">Sicher?</button>'
                 )
             );
             Materialize.toast($toastContent, 10000, "rounded");
@@ -155,27 +169,28 @@ $(document).ready(function () {
             let chipsautocompletesel = $(".chips-autocomplete");
             let hiddentagssel = $("#hidden_tags");
 
+            const chipchange = () => {
+                const instance = M.Chips.getInstance(chipsautocompletesel);
+                const djson = JSON.stringify(instance.chipsData);
+                hiddentagssel.val(djson);
+                redsave();
+            };
+
             chipsautocompletesel.chips({
-                placeholder: 'Tags eingeben',
-                secondaryPlaceholder: 'Mehr Tags',
+                placeholder: "Tags eingeben",
+                secondaryPlaceholder: "Mehr Tags",
                 autocompleteOptions: {
                     data: tags,
                     limit: Infinity,
-                    minLength: 1
+                    minLength: 1,
                 },
                 data: seltags,
                 onChipAdd: () => {
-                    hiddentagssel.val(
-                        JSON.stringify(M.Chips.getInstance(chipsautocompletesel).chipsData)
-                    );
-                    redsave();
+                    chipchange();
                 },
                 onChipDelete: () => {
-                    hiddentagssel.val(
-                        JSON.stringify(M.Chips.getInstance(chipsautocompletesel).chipsData)
-                    );
-                    redsave();
-                }
+                    chipchange();
+                },
             });
 
             hiddentagssel.val(JSON.stringify(seltags)); //store initial array
@@ -196,6 +211,7 @@ $(document).ready(function () {
         }, 600);
 
         //load a placeholder if preview image is not (yet) created
+        //TODO Does not work
         imgsel.on("error", function () {
             $(this).unbind("error");
             $(this).attr("src", "/images/papierkorb-logo.png");
@@ -259,7 +275,7 @@ $(document).ready(function () {
 
         docdata.subject = $("#subject").val().trim();
         docdata.partner = $("#partner").val().trim();
-        docdata.docdate = M.Datepicker.getInstance($("#docdate")).toString(); //$('#docdate').val();
+        docdata.docdate = M.Datepicker.getInstance($("#docdate")).toString();
         let tags = $("#hidden_tags").val();
         docdata.tags = [];
         $.each(JSON.parse(tags), function (key, value) {
@@ -305,13 +321,5 @@ $(document).ready(function () {
             },
             "json"
         );
-    });
-
-    $("#partner,#subject").on("input", function () {
-        redsave();
-    });
-
-    $(".jqusers").on("click", function () {
-        redsave();
     });
 });
