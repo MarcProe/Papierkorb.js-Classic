@@ -83,12 +83,13 @@ block content
                         #ocr.determinate
             .form-group
                 label(for="subject") Betreff:
-                input#subject.form-control.autocomplete(
-                    type="text",
-                    placeholder="Betreff",
-                    name="subject",
-                    value=data.subject
-                )
+                div.input-field
+                    input#subject.form-control.autocomplete(
+                        type="text",
+                        placeholder="Betreff",
+                        name="subject",
+                        value=data.subject
+                    )
             .form-group
                 label(for="docdate") Datum:
                 input#docdate.docdate(type="text")              

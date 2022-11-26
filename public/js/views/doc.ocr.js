@@ -1,5 +1,5 @@
 function subjectautocomplete(singletext) {
-    //Initialize Partner Autocomplete
+    //Initialize Subject Autocomplete
     let arr = singletext.split("\n").filter((line) => line.length > 6);
     let subjlist = {};
 
