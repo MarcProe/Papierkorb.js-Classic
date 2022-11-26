@@ -7,7 +7,8 @@
         "stop": "pm2 stop all",
         "postversion": "git push",
         "test": "node_modules/.bin/mocha --exit --reporter spec",
-        "prettier view js": "npx prettier --write public/js/views/"
+        "prettier view js": "npx prettier --write public/js/views/",
+        "prettier modules": "npx prettier --write modules/"
     },
     "dependencies": {
         "async": "^3.2.3",
