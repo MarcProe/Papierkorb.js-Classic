@@ -6,7 +6,11 @@
         "start": "pm2 start ./bin/www",
         "stop": "pm2 stop all",
         "postversion": "git push",
-        "test": "node_modules/.bin/mocha --exit --reporter spec"
+        "test": "node_modules/.bin/mocha --exit --reporter spec",
+        "depcheck": "npx depcheck",
+        "prettier views js": "npx prettier --write public/js/views/",
+        "prettier modules": "npx prettier --write modules/",
+        "prettier routes": "npx prettier --write routes/"
     },
     "dependencies": {
         "async": "^3.2.3",
@@ -25,7 +29,6 @@
         "fs-extra": "10.0.0",
         "glob": "^7.1.6",
         "hoek": "^6.1.3",
-        "jade-bootstrap": "^1.0.14",
         "jimp": "^0.16.1",
         "lodash": "^4.17.21",
         "memorystore": "^1.6.6",
@@ -44,6 +47,7 @@
         "asleep": "^1.0.3",
         "chai": "^4.3.6",
         "mocha": "^9.2.0",
+        "pdfjs-dist": "^3.1.81",
         "request": "^2.88.0",
         "should": "^13.2.3",
         "stylelint": "^13.12.0",

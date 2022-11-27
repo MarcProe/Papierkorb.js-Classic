@@ -79,11 +79,7 @@ let render = {
                 return promiseLoadTaglist;
             })
             .then(function () {
-                let ttemplate = template;
-                if (req.session.bootstrap) {
-                    ttemplate = template + "_bootstrap";
-                }
-                res.render(ttemplate, {
+                res.render(template, {
                     err: err,
                     data: data,
                     conf: conf,

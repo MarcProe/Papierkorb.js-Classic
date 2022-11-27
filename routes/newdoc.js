@@ -8,7 +8,6 @@ const config = require("config");
 const conf = config.get("conf");
 
 const render = require("../modules/render.js");
-const ghwrapper = require("../modules/ghwrapper.js");
 
 const fs = require("fs");
 const fse = require("fs-extra");
@@ -91,8 +90,6 @@ async function upload(req, res, next) {
     let targetfile = san(req.files.file.name);
     console.log(targetfile);
 
-    //await req.files.file.mv(conf.doc.newpath + targetfile);
-
     try {
         fs.writeFileSync(conf.doc.newpath + targetfile, req.files.file.data);
     } catch (e) {
@@ -106,85 +103,18 @@ function create(req, res, next) {
     let targetfile = moment().utc().toISOString().replace(/:/g, "-") + ".pdf";
     let src = conf.doc.newpath + san(req.params.filename);
     let target = conf.doc.basepath + targetfile;
-    let imagepath = conf.doc.imagepath + targetfile;
 
-    let numpages = 0;
-    let firstPageExtract = "";
-
-    console.time("newproc");
-    console.time("newgh");
-    console.time("newtess");
-
-    //execute promises
-    fse.rename(src, target)
-        .then(function (data) {
-            //move file from new to work
-
-            return null; //continue processing in backend
-        })
-        .then(function () {
-            //write first page extract to db
-
-            return ghwrapper.create(targetfile, imagepath, true, conf); //create page one preview
-        })
-        .then(function () {
-            //extract the first pdf file
-
-            return ghwrapper.create(targetfile, imagepath, true, conf, true); //create page one thumb
-        })
-        .then(function (data) {
-            console.timeEnd("newproc");
-
-            return ghwrapper.pagecount(target);
-        })
-        .then(function (pagecount) {
-            numpages = pagecount;
-            console.log(numpages);
-
-            return req.app.locals.db
-                .collection(conf.db.c_doc)
-                .updateOne(
-                    { _id: targetfile },
-                    { $set: { previews: numpages } },
-                    { upsert: true }
-                );
-        })
-        .then(function () {
-            //create 1st preview
-
-            redirect(res, targetfile); //redirect to the doc
-
-            if (numpages > 1) {
-                //only create more thumbs if
-                return ghwrapper.create(
-                    targetfile,
-                    imagepath,
-                    false,
-                    conf,
-                    true
-                ); //there is more than 1 page
-            } else {
-                return null;
-            }
-        })
-        .then(function () {
-            //other previews where
-            if (numpages > 1) {
-                //only create more previews if
-                return ghwrapper.create(targetfile, imagepath, false, conf); //there is more than 1 page
-            } else {
-                return null;
-            }
-        })
-        .then(function () {
-            console.log("Other Previews done!"); //created if more than 1 page
-            console.timeEnd("newgh");
-        })
-        .catch(function (err) {
-            console.error(err);
-            res.send(err);
-            res.end();
-        });
+    //move doc from new to doc
+    fse.moveSync(src, target);
+    //create doc
+    req.app.locals.db
+        .collection(conf.db.c_doc)
+        .updateOne(
+            { _id: targetfile },
+            { $set: { previews: 0 } },
+            { upsert: true }
+        );
+    redirect(res, targetfile); //redirect to the doc
 }
 
 function redirect(res, targetfile) {
