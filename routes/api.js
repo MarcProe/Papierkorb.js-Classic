@@ -42,10 +42,9 @@ router.get("/:version/:func/:docid?/:genid?", function (req, res, next) {
             rotate(req, res, next);
             break;
         default:
-            res.writeHead(200, {
-                message: `endpoint unknown ${req.params.func}`,
-            });
-            res.end();
+            return res
+                .status(404)
+                .send({ message: `endpoint unknown: ${req.params.func}` });
     }
 });
 
@@ -78,7 +77,7 @@ router.post("/:version/:func/:docid?/", function (req, res, next) {
         case "doc":
             savedoc(req, res, next);
             break;
-        default:
+        default: //TODO: check if this works
             res.writeHead(404, {
                 message: "method not found",
             });
@@ -95,7 +94,7 @@ router.put("/:version/:func/:docid?/", function (req, res, next) {
             console.log(moment.utc(req.body.docdate));
             res.end();
             break;
-        }
+        } //TODO: add default
     }
 });
 
