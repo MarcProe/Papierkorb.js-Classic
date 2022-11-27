@@ -17,76 +17,35 @@ router.get("/:version/:func/:docid?/:genid?", function (req, res, next) {
             });
             res.end();
             process.exit(1);
-            break;
         case "partners":
-            getpartners(req, res, next)
-                .then(function (result) {
-                    res.writeHead(200, { "Content-Type": "application/json" });
-                    res.end(JSON.stringify(result));
-                })
-                .catch(function (err) {
-                    res.writeHead(500, { "Content-Type": "application/json" });
-                    res.end(JSON.stringify(err));
-                });
+            handleGet(req, res, next, getpartners);
             break;
         case "user":
-            getuser(req, res, next)
-                .then(function (result) {
-                    res.writeHead(200, { "Content-Type": "application/json" });
-                    res.end(JSON.stringify(result));
-                })
-                .catch(function (err) {
-                    res.writeHead(500, { "Content-Type": "application/json" });
-                    res.end(JSON.stringify(err));
-                });
+            handleGet(req, res, next, getuser);
             break;
         case "tags":
-            gettags(req, res, next)
-                .then(function (result) {
-                    res.writeHead(200, { "Content-Type": "application/json" });
-                    res.end(JSON.stringify(result));
-                })
-                .catch(function (err) {
-                    res.writeHead(500, { "Content-Type": "application/json" });
-                    res.end(JSON.stringify(err));
-                });
+            handleGet(req, res, next, gettags);
             break;
-        case "doc": {
-            getdoc(req, res, next)
-                .then(function (result) {
-                    res.writeHead(200, { "Content-Type": "application/json" });
-                    res.end(JSON.stringify(result));
-                })
-                .catch(function (err) {
-                    res.writeHead(500, { "Content-Type": "application/json" });
-                    res.end(JSON.stringify(err));
-                });
+        case "doc":
+            handleGet(req, res, next, getdoc);
             break;
-        }
-        case "docs": {
-            getdocs(req, res, next)
-                .then(function (result) {
-                    res.writeHead(200, { "Content-Type": "application/json" });
-                    res.end(JSON.stringify(result));
-                })
-                .catch(function (err) {
-                    res.writeHead(500, { "Content-Type": "application/json" });
-                    res.end(JSON.stringify(err));
-                });
+        case "docs":
+            handleGet(req, res, next, getdocs);
             break;
-        }
-        case "preview": {
+        case "preview":
             getpreview(req, res, next);
             break;
-        }
-        case "download": {
+        case "download":
             download(req, res, next);
             break;
-        }
-        case "rotate": {
+        case "rotate":
             rotate(req, res, next);
             break;
-        }
+        default:
+            res.writeHead(200, {
+                message: `endpoint unknown ${req.params.func}`,
+            });
+            res.end();
     }
 });
 
@@ -139,6 +98,18 @@ router.put("/:version/:func/:docid?/", function (req, res, next) {
         }
     }
 });
+
+function handleGet(req, res, next, func) {
+    func(req, res, next)
+        .then(function (result) {
+            res.writeHead(200, { "Content-Type": "application/json" });
+            res.end(JSON.stringify(result));
+        })
+        .catch(function (err) {
+            res.writeHead(500, { "Content-Type": "application/json" });
+            res.end(JSON.stringify(err));
+        });
+}
 
 function getpartners(req, res, next) {
     return new Promise(function (resolve, reject) {
