@@ -199,12 +199,6 @@ $(document).ready(function () {
             hiddentagssel.val(JSON.stringify(seltags)); //store initial array
         });
 
-        //init unveil
-        let imgsel = $("img");
-        imgsel.unveil(50, function () {
-            //noop
-        });
-
         $("#ocr1").on("click", function () {
             ocr(0, docdata);
         });
