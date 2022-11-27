@@ -297,6 +297,7 @@ $(document).ready(function () {
         if (docdata.users.length === 0) {
             delete docdata.users;
         }
+        docdata.previews = parseInt($("#pdf-num-pages").text().trim());
 
         $.post(
             "/api/v1/doc/" + docid + "/",

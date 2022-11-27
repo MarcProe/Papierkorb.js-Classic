@@ -329,6 +329,7 @@ function savedoc(req, res, next) {
             docdate: isodate ? isodate : "",
             partner: req.body.partner,
             tags: tags ? tags : [],
+            previews: req.body.previews ? req.body.previews : 0,
         },
     };
     console.log(docdata);
