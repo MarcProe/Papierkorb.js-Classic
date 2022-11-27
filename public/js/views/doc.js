@@ -7,6 +7,8 @@ $(document).ready(function () {
     let idregex = /.*(\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}\.\d{3}Z\.pdf).*/g;
     let docid = idregex.exec(window.location.href)[1];
 
+    $(".tooltipped").tooltip();
+
     //TODO subject autocomplete
     $("#subject").on("input", function () {
         redsave();
