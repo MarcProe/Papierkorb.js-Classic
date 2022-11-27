@@ -9,7 +9,8 @@
         "test": "node_modules/.bin/mocha --exit --reporter spec",
         "depcheck": "npx depcheck",
         "prettier views js": "npx prettier --write public/js/views/",
-        "prettier modules": "npx prettier --write modules/"
+        "prettier modules": "npx prettier --write modules/",
+        "prettier routes": "npx prettier --write routes/"
     },
     "dependencies": {
         "async": "^3.2.3",

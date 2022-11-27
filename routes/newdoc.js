@@ -106,7 +106,7 @@ function create(req, res, next) {
 
     //move doc from new to doc
     fse.moveSync(src, target);
-    //create doc 
+    //create doc
     req.app.locals.db
         .collection(conf.db.c_doc)
         .updateOne(
