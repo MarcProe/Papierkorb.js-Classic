@@ -5,7 +5,7 @@ block content
         .col.s8
             div(id="pdf-main-container")
                 .row
-                    .col.s3.center
+                    .col.s4.center
                         a#pdf-prev.waves-effect.waves-light.btn.blue.z-depth-5.tooltipped(
                             href="#",
                             style="padding: 0px; width: 100%",
@@ -14,9 +14,9 @@ block content
                             data-tooltip="Zurück"
                         )
                             i#pdfprevicon.material-icons.white-text arrow_back
-                    .col.s3.center.fs3.blue-text
+                    .col.s4.center.fs3.blue-text
                         div <span id="pdf-current-page">0</span>&nbsp;/&nbsp;<span id="pdf-num-pages">0</span>
-                    .col.s3.center
+                    .col.s4.center
                         a#pdf-next.waves-effect.waves-light.btn.blue.z-depth-5.tooltipped(
                             href="#",
                             style="padding: 0px; width: 100%",
@@ -25,6 +25,10 @@ block content
                             data-tooltip="Weiter"
                         )
                             i#pdfnexticon.material-icons.white-text arrow_forward
+                .row 
+                    .col.s11 
+                    .col.s1 
+                         include doc.editcol.pug
                 canvas(id="pdf-canvas")
 
         .col.s4
@@ -159,7 +163,6 @@ block content
             textarea.doctext= data.plaintext
     #modaldelete.modal
         include doc.modaldelete.pug
-    script(src=conf.proxy.public + 'js/unveil.js')
     script(src=conf.proxy.public + 'js/t/tesseract.js')
     script(src=conf.proxy.public + 'js/pdf/pdf.min.js')
     script(src=conf.proxy.public + 'js/pdf/pdf.worker.min.js')

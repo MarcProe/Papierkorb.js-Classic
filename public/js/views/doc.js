@@ -8,6 +8,7 @@ $(document).ready(function () {
     let docid = idregex.exec(window.location.href)[1];
 
     $(".tooltipped").tooltip();
+    $('.fixed-action-btn').floatingActionButton({ direction: 'left', hoverEnabled: true });
 
     //TODO subject autocomplete
     $("#subject").on("input", function () {
@@ -128,12 +129,12 @@ $(document).ready(function () {
             ).add(
                 $(
                     '<a href="/doc/' +
-                        docdata._id +
-                        "/delete/" +
-                        page +
-                        "?previews=" +
-                        docdata.previews +
-                        '" class="btn-flat toast-action">Sicher?</button>'
+                    docdata._id +
+                    "/delete/" +
+                    page +
+                    "?previews=" +
+                    docdata.previews +
+                    '" class="btn-flat toast-action">Sicher?</button>'
                 )
             );
             Materialize.toast($toastContent, 10000, "rounded");
@@ -211,13 +212,6 @@ $(document).ready(function () {
         setTimeout(function () {
             $(".previewcontainer").css("min-height", "0px");
         }, 600);
-
-        //load a placeholder if preview image is not (yet) created
-        //TODO Does not work
-        imgsel.on("error", function () {
-            $(this).unbind("error");
-            $(this).attr("src", "/images/papierkorb-logo.png");
-        });
 
         //reloadpreview button
         $(".reloadpreview").on("click", function () {
