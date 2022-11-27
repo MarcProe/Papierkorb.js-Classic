@@ -3,23 +3,30 @@ extends layout
 block content
     .row
         .col.s8
-            - var n = 0;
-            while n < data.previews
+            div(id="pdf-main-container")
                 .row
-                    #pageheadercol.col.s11.blue.white-text.valign-wrapper
-                        h5
-                            a.white-text.anchor(name='page' + (n + 1))= 'Seite ' + (n + 1)
-                    #editcol.col.s1
-                        include doc.editcol.pug
-                .row
-                    .col.s12
-                        .previewcontainer(style="min-height: 600px")
-                            img.preview(
-                                id='image_' + n,
-                                src=conf.proxy.preview + data._id + '.' + n + '.thumb.png',
-                                data-src=conf.proxy.preview + data._id + '.' + n + '.png'
-                            )
-                - n++;
+                    .col.s3.center
+                        a#pdf-prev.waves-effect.waves-light.btn.blue.z-depth-5.tooltipped(
+                            href="#",
+                            style="padding: 0px; width: 100%",
+                            data-position="bottom",
+                            data-delay="50",
+                            data-tooltip="Zur&uuml;ck"
+                        )
+                            i#pdfprevicon.material-icons.white-text arrow_back
+                    .col.s3.center.fs3.blue-text
+                        div <span id="pdf-current-page">0</span>&nbsp;/&nbsp;<span id="pdf-num-pages">0</span>
+                    .col.s3.center
+                        a#pdf-next.waves-effect.waves-light.btn.blue.z-depth-5.tooltipped(
+                            href="#",
+                            style="padding: 0px; width: 100%",
+                            data-position="bottom",
+                            data-delay="50",
+                            data-tooltip="Weiter"
+                        )
+                            i#pdfnexticon.material-icons.white-text arrow_forward
+                canvas(id="pdf-canvas")
+
         .col.s4
             input#hidden_tags(type="hidden" name="tags")
             .row
@@ -154,5 +161,8 @@ block content
         include doc.modaldelete.pug
     script(src=conf.proxy.public + 'js/unveil.js')
     script(src=conf.proxy.public + 'js/t/tesseract.js')
+    script(src=conf.proxy.public + 'js/pdf/pdf.min.js')
+    script(src=conf.proxy.public + 'js/pdf/pdf.worker.min.js')
     script(src=conf.proxy.public + 'js/views/doc.ocr.js')
+    script(src=conf.proxy.public + 'js/views/doc.pdf.js')
     script(src=conf.proxy.public + 'js/views/doc.js')

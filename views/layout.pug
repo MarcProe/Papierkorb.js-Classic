@@ -87,13 +87,14 @@ html
                         a.white-text(href="/")
                             i.material-icons home
                         nobr= ' ' + (session.users ? session.users : 'KEIN USERFILTER')
-                        span(style="opacity: 0", title='' + confenv)= ' ' + confenv
+                        span(style="opacity: 0" title='' + confenv)= ' ' + confenv
                 .col.s10
                     .valign-wrapper.right
                         if (data._id)
                             - var n = 0;
                             while n++ < data.previews
-                                a.white-text(
+                                a.renderpage.white-text(
+                                    id="renderpage" + n
                                     href='#page' + n,
                                     style="font-size: 24px"
                                 )= n
