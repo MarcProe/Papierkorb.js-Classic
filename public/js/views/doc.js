@@ -8,7 +8,7 @@ $(document).ready(function () {
     let docid = idregex.exec(window.location.href)[1];
 
     $(".tooltipped").tooltip();
-    $('.fixed-action-btn').floatingActionButton({ direction: 'left', hoverEnabled: true });
+    $('.fixed-action-btn').floatingActionButton({ direction: 'bottom', hoverEnabled: false });
 
     //TODO subject autocomplete
     $("#subject").on("input", function () {
@@ -208,50 +208,67 @@ $(document).ready(function () {
         }, 600);
 
         //reloadpreview button
-        $(".reloadpreview").on("click", function () {
-            let image = $(this).attr("data-id");
-            let numimagesel = $("#" + image);
-            let src = numimagesel.attr("data-src");
-            numimagesel.attr("src", src + "?timestamp=" + new Date().getTime());
+        $("#reloadpreview").on("click", function () {
+            renderPage(1);
         });
 
         //rotateleft button
-        $(".rotateleft").on("click", function () {
-            let image = $(this).attr("data-id");
-            $("#" + image).css({
-                "-webkit-transform": "rotate(-90deg)",
-                "-moz-transform": "rotate(-90deg)",
+        $("#rotateleft").on("click", function () {
+
+            renderPage(1, true);
+
+            const c = $("#pdf-parent");
+            c.css({
+                "-webkit-transform": `rotate(-90deg)`,
+                "-moz-transform": `rotate(-90deg)`,
                 transform: "rotate(-90deg)" /* For modern browsers(CSS3)  */,
-            });
+                "transform-origin": "center center",
+                "z-index": -1
+            })
         });
 
         //rotateright button
-        $(".rotateright").on("click", function () {
-            let image = $(this).attr("data-id");
-            $("#" + image).css({
-                "-webkit-transform": "rotate(90deg)",
-                "-moz-transform": "rotate(90deg)",
+        $("#rotateright").on("click", function () {
+
+            renderPage(1, true);
+
+            const c = $("#pdf-parent");
+            c.css({
+                "-webkit-transform": `rotate(90deg)`,
+                "-moz-transform": `rotate(90deg)`,
                 transform: "rotate(90deg)" /* For modern browsers(CSS3)  */,
-            });
+                "transform-origin": "center center",
+                "z-index": -1
+            })
         });
 
         //rotate180 button
-        $(".rotate180").on("click", function () {
-            let image = $(this).attr("data-id");
-            $("#" + image).css({
+        $("#rotate180").on("click", function () {
+
+            renderPage(1, false);
+
+            let c = $("#pdf-parent");
+            c.css({
                 "-webkit-transform": "rotate(180deg)",
                 "-moz-transform": "rotate(180deg)",
                 transform: "rotate(180deg)" /* For modern browsers(CSS3)  */,
+                "transform-origin": "center center",
+                "z-index": -1
             });
         });
 
         //rotateback button
-        $(".rotateback").on("click", function () {
-            let image = $(this).attr("data-id");
-            $("#" + image).css({
+        $("#rotateback").on("click", function () {
+
+            renderPage(1, false);
+
+            let c = $("#pdf-parent");
+            c.css({
                 "-webkit-transform": "rotate(0deg)",
                 "-moz-transform": "rotate(0deg)",
                 transform: "rotate(0deg)" /* For modern browsers(CSS3)  */,
+                "transform-origin": "center center",
+                "z-index": -1
             });
         });
 
