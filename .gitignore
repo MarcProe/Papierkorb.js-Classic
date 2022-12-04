@@ -62,6 +62,7 @@ typings/
 
 #datadir
 data
+mounted
 
 gh_token
 
