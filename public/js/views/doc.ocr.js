@@ -144,7 +144,7 @@ function ocr(img, docdata) {
         ocrbtnsel.addClass("pulse").addClass("disabled");
         const bodySel = $("body");
         const qhost = bodySel.attr("data-conf-proxy-public");
-        console.log(qhost);
+        //console.log(qhost);
 
         window.Tesseract = Tesseract.create({
             workerPath: qhost + "/js/t/worker.js",
@@ -155,16 +155,12 @@ function ocr(img, docdata) {
         let doctextsel = $(".doctext");
         let ocrtext = "";
 
-        Tesseract.recognize(
-            bodySel.attr("data-conf-proxy-preview") +
-                docdata._id +
-                "." +
-                img +
-                ".png",
-            {
-                lang: "deu",
-            }
-        )
+        const ctx = document.getElementById("pdf-canvas").getContext("2d");
+        const src = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+        Tesseract.recognize(src, {
+            lang: "deu",
+        })
             .progress(function (message) {
                 let ocrsel = $("#ocr");
                 if (message.status === "recognizing text") {
@@ -230,7 +226,7 @@ function ocr(img, docdata) {
                 ocrbtnsel.removeClass("pulse").removeClass("disabled");
             });
     } catch (err) {
-        Materialize.toast("Unerwarteter Fehler. Bitte Seite neu laden.", 10000);
+        M.toast("Unerwarteter Fehler. Bitte Seite neu laden.", 10000);
         console.log(err);
     }
 }
