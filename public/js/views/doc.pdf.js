@@ -1,4 +1,3 @@
-
 const idregex = /.*(\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}\.\d{3}Z\.pdf).*/g;
 const docid = idregex.exec(window.location.href)[1];
 const url = `/download/${docid}`;
@@ -11,17 +10,19 @@ const canvas = document.getElementById("pdf-canvas");
 const ctx = canvas.getContext("2d");
 
 function renderPage(num, rot = false) {
-    console.log("rendering pdf page " + num)
+    console.log("rendering pdf page " + num);
     pageRendering = true;
     pdfDoc.getPage(num).then(function (page) {
         const maincont = document.getElementById("pdf-main-container");
         let scale = 0;
 
         if (rot) {
-            scale = maincont.getBoundingClientRect().width /
+            scale =
+                maincont.getBoundingClientRect().width /
                 page.getViewport({ scale: 1.0 }).height;
         } else {
-            scale = maincont.getBoundingClientRect().width /
+            scale =
+                maincont.getBoundingClientRect().width /
                 page.getViewport({ scale: 1.0 }).width;
         }
 

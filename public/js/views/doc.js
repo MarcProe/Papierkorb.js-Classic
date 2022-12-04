@@ -8,7 +8,10 @@ $(document).ready(function () {
     let docid = idregex.exec(window.location.href)[1];
 
     $(".tooltipped").tooltip();
-    $('.fixed-action-btn').floatingActionButton({ direction: 'bottom', hoverEnabled: false });
+    $(".fixed-action-btn").floatingActionButton({
+        direction: "bottom",
+        hoverEnabled: false,
+    });
 
     //TODO subject autocomplete
     $("#subject").on("input", function () {
@@ -129,12 +132,12 @@ $(document).ready(function () {
             ).add(
                 $(
                     '<a href="/doc/' +
-                    docdata._id +
-                    "/delete/" +
-                    page +
-                    "?previews=" +
-                    docdata.previews +
-                    '" class="btn-flat toast-action">Sicher?</button>'
+                        docdata._id +
+                        "/delete/" +
+                        page +
+                        "?previews=" +
+                        docdata.previews +
+                        '" class="btn-flat toast-action">Sicher?</button>'
                 )
             );
             Materialize.toast($toastContent, 10000, "rounded");
@@ -214,7 +217,6 @@ $(document).ready(function () {
 
         //rotateleft button
         $("#rotateleft").on("click", function () {
-
             renderPage(1, true);
 
             const c = $("#pdf-parent");
@@ -223,13 +225,12 @@ $(document).ready(function () {
                 "-moz-transform": `rotate(-90deg)`,
                 transform: "rotate(-90deg)" /* For modern browsers(CSS3)  */,
                 "transform-origin": "center center",
-                "z-index": -1
-            })
+                "z-index": -1,
+            });
         });
 
         //rotateright button
         $("#rotateright").on("click", function () {
-
             renderPage(1, true);
 
             const c = $("#pdf-parent");
@@ -238,13 +239,12 @@ $(document).ready(function () {
                 "-moz-transform": `rotate(90deg)`,
                 transform: "rotate(90deg)" /* For modern browsers(CSS3)  */,
                 "transform-origin": "center center",
-                "z-index": -1
-            })
+                "z-index": -1,
+            });
         });
 
         //rotate180 button
         $("#rotate180").on("click", function () {
-
             renderPage(1, false);
 
             let c = $("#pdf-parent");
@@ -253,13 +253,12 @@ $(document).ready(function () {
                 "-moz-transform": "rotate(180deg)",
                 transform: "rotate(180deg)" /* For modern browsers(CSS3)  */,
                 "transform-origin": "center center",
-                "z-index": -1
+                "z-index": -1,
             });
         });
 
         //rotateback button
         $("#rotateback").on("click", function () {
-
             renderPage(1, false);
 
             let c = $("#pdf-parent");
@@ -268,7 +267,7 @@ $(document).ready(function () {
                 "-moz-transform": "rotate(0deg)",
                 transform: "rotate(0deg)" /* For modern browsers(CSS3)  */,
                 "transform-origin": "center center",
-                "z-index": -1
+                "z-index": -1,
             });
         });
 
