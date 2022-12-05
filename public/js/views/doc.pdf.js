@@ -85,14 +85,28 @@ for (let i = 0; i < renderpages.length; i++) {
 }
 
 // Start Rendering
-function loadPdf() {
-    pdfjsLib.getDocument(url).promise.then(function (pdfDoc_) {
-        pdfDoc = pdfDoc_;
-        document.getElementById("pdf-num-pages").textContent = pdfDoc.numPages;
+function loadPdf(url, password = "") {
+    pdfjsLib
+        .getDocument({ url: url, password: password })
+        .promise.then(function (pdfDoc_) {
+            pdfDoc = pdfDoc_;
+            document.getElementById("pdf-num-pages").textContent =
+                pdfDoc.numPages;
+            renderPage(pageNum);
+        })
+        .catch((error) => {
+            if (error.name === "PasswordException") {
+                const pw = prompt(
+                    "Das PDF ist mit einem Passwort geschützt. Bitte Passwort eingeben:"
+                );
 
-        renderPage(pageNum);
-    });
+                if (pw !== null && pw !== "") {
+                    loadPdf(url, pw);
+                }
+            }
+        });
 }
+
 $(document).ready(function () {
-    loadPdf();
+    loadPdf(url);
 });
