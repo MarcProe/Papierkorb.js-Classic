@@ -13,6 +13,12 @@ $(document).ready(function () {
         hoverEnabled: false,
     });
 
+    $("#cleardate").on("click", function () {
+        $("#docdate").val("");
+        M.Datepicker.getInstance($("#docdate")).setDate(new Date());
+        redsave();
+    });
+
     //TODO subject autocomplete
     $("#subject").on("input", function () {
         redsave();
@@ -22,7 +28,7 @@ $(document).ready(function () {
         console.log(docdata);
         let date = new Date(docdata.docdate);
         $(".docdate").datepicker({
-            // specify options here
+            autoClose: true,
             defaultDate: date, // TODO: founddate
             setDefaultDate: true,
             format: "dd.mm.yyyy",

@@ -196,6 +196,9 @@ function ocr(img, docdata) {
                     docdatesel.val(
                         moment.utc(founddate).format("DD.MM.YYYY").toString()
                     );
+                    M.Datepicker.getInstance(docdatesel).setDate(
+                        new Date(docdatesel.val())
+                    );
                 }
 
                 findpartner(ocrtext).then(function (foundpartner) {
