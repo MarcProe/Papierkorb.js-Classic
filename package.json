@@ -46,7 +46,7 @@
     "devDependencies": {
         "asleep": "^1.0.3",
         "chai": "^4.3.6",
-        "mocha": "^10.1.0",
+        "mocha": "^10.2.0",
         "pdfjs-dist": "^3.1.81",
         "request": "^2.88.0",
         "should": "^13.2.3",
