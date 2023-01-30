@@ -47,7 +47,7 @@
         "asleep": "^1.0.3",
         "chai": "^4.3.6",
         "mocha": "^10.1.0",
-        "pdfjs-dist": "^3.1.81",
+        "pdfjs-dist": "^3.3.122",
         "request": "^2.88.0",
         "should": "^13.2.3",
         "stylelint": "^13.13.1",
